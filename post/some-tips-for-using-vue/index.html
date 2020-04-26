@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>最近玩 Vue 的心得和收集的一些技巧 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">最近玩 Vue 的心得和收集的一些技巧</h1>
+<div class="post-meta">
+    
+
+    
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#动态组件的强制数据渲染">动态组件的强制数据渲染</a></li><li class="post-toc-level-0"><em>2</em><a href="#生命周期">生命周期</a></li><li class="post-toc-level-0"><em>3</em><a href="#这图很有用">这图很有用</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-some-tips-for-using-vue"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <h2 id="动态组件的强制数据渲染"><a href="#动态组件的强制数据渲染" class="headerlink" title="动态组件的强制数据渲染"></a>动态组件的强制数据渲染</h2><p><strong>dynamic component vue force re-render</strong></p>
+<p>问题：切换组件时re-render，变数据时却不</p>
+<p>解决：表明唯一身份，加个 <code>:key</code> 参数</p>
+<pre><code class="html">&lt;component ... :key=&quot;{MyMethod()}&quot;&gt;&lt;/component&gt;</code></pre>
+<pre><code class="javascript">MyMethod(){
+    return +new Date
+}</code></pre>
+<p>PS：<strong>$forceUpdate是没用的，因为根本没有更新props</strong></p>
+<p><a href>https://cn.vuejs.org/v2/guide/list.html#key</a></p>
+<h2 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h2><p><a href="https://medium.com/@brockreece/vue-parent-and-child-lifecycle-hooks-5d6236bd561f" target="_blank" rel="noopener">Vue Parent and Child lifecycle hooks</a></p>
+<p><img src="http://static.0.codante.org/e/3/e3c6e4b2a540c0ce4833c14c4f275804892ffa8b.png" alt></p>
+<h2 id="这图很有用"><a href="#这图很有用" class="headerlink" title="这图很有用"></a>这图很有用</h2><p><img src="http://static.0.codante.org/a/f/af4260b93777258e321ce7a2ca1d288e2f9e3e3c.png" alt></p>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.168Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/some-tips-for-using-vue/&title=《最近玩 Vue 的心得和收集的一些技巧》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/some-tips-for-using-vue/&title=《最近玩 Vue 的心得和收集的一些技巧》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/some-tips-for-using-vue/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《最近玩 Vue 的心得和收集的一些技巧》 — codante&url=http://codante.org/post/some-tips-for-using-vue/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/some-tips-for-using-vue/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+
+        
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/browser-rem-px/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">浏览器中rem和px的关系</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/rumors-raise-101/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">育儿谣言 101 辟</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

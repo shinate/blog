@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>linux下的httpd(apache)安装及配置 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">linux下的httpd(apache)安装及配置</h1>
+<div class="post-meta">
+    
+
+    
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#下载安装包">下载安装包</a></li><li class="post-toc-level-0"><em>2</em><a href="#创建apache用户">创建apache用户</a></li><li class="post-toc-level-0"><em>3</em><a href="#编译安装">编译安装</a></li><li class="post-toc-level-0"><em>4</em><a href="#配置">配置</a></li></ol><ol><li class="post-toc-level-1"><em>4.1</em><a href="#修改apache配置文件">修改apache配置文件</a></li><li class="post-toc-level-0"><em>5</em><a href="#启动apache">启动apache</a></li><li class="post-toc-level-0"><em>6</em><a href="#设置开机启动">设置开机启动</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-apache-install-and-configuration"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <h2 id="下载安装包"><a href="#下载安装包" class="headerlink" title="下载安装包"></a>下载安装包</h2><pre><code class="bash">wget http://apache.etoak.com/httpd/httpd-2.2.11.tar.gz</code></pre>
+<h2 id="创建apache用户"><a href="#创建apache用户" class="headerlink" title="创建apache用户"></a>创建apache用户</h2><pre><code class="bash">groupadd apache;useradd -g apache apache</code></pre>
+<h2 id="编译安装"><a href="#编译安装" class="headerlink" title="编译安装"></a>编译安装</h2><pre><code class="bash">./configure --prefix=/usr/local/apache2 \
+--enable-modules=all \
+--enable-ssl \
+--enable-so \
+--enable-rewrite \
+--enable-mime-magic \
+--enable-file-cache \
+--enable-cache \
+--enable-disk-cache \
+--enable-mem-cache \
+--enable-static-rotatelogs \
+--enable-vhost-alias
+make
+make install</code></pre>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="修改apache配置文件"><a href="#修改apache配置文件" class="headerlink" title="修改apache配置文件"></a>修改apache配置文件</h3><pre><code class="bash">vi /usr/local/apache2/conf/httpd.conf</code></pre>
+<p>修改:</p>
+<pre><code class="ini">DirectoryIndex index.html index.htm index.php
+User apache
+Group apache</code></pre>
+<p>添加:</p>
+<pre><code class="ini">ServerName 127.0.0.1:80</code></pre>
+<pre><code class="ini">AddType application/x-httpd-php .php .php3
+AddType application/x-httpd-php-source .phps</code></pre>
+<h2 id="启动apache"><a href="#启动apache" class="headerlink" title="启动apache"></a>启动apache</h2><pre><code class="bash">/usr/local/apache2/bin/apachectl start</code></pre>
+<h2 id="设置开机启动"><a href="#设置开机启动" class="headerlink" title="设置开机启动"></a>设置开机启动</h2><pre><code class="bash">vi /etc/rc.local</code></pre>
+<p>添加</p>
+<pre><code class="bash">/usr/local/apache2/bin/apachectl start</code></pre>
+<p>感谢老男赐予的文档…</p>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.110Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/apache-install-and-configuration/&title=《linux下的httpd(apache)安装及配置》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/apache-install-and-configuration/&title=《linux下的httpd(apache)安装及配置》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/apache-install-and-configuration/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《linux下的httpd(apache)安装及配置》 — codante&url=http://codante.org/post/apache-install-and-configuration/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/apache-install-and-configuration/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+
+        
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/less-commonly-used-in-php/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">PHP中不太常用的方法</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/svn-install-and-configuration/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">SVN安装及配置流程</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

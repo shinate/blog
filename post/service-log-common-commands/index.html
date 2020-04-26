@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="日志,Linux,分析,运维">
+    
+    <title>常用的服务器日志分析命令 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">常用的服务器日志分析命令</h1>
+<div class="post-meta">
+    
+<div class="post-category-list flex-column">
+    <a class="post-category-link" href="/blog/">首页</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/">研发之路</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/服务器/">服务器</a>
+</div>
+
+
+    
+<div class="post-tag-list flex-column">
+    <a class="post-tag-link" href="/blog/tag/Linux/">Linux</a><a class="post-tag-link" href="/blog/tag/分析/">分析</a><a class="post-tag-link" href="/blog/tag/日志/">日志</a><a class="post-tag-link" href="/blog/tag/运维/">运维</a>
+</div>
+
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#IP相关统计">IP相关统计</a></li><li class="post-toc-level-1"><em>1.1</em><a href="#统计IP访问量（独立ip访问数量）">统计IP访问量（独立ip访问数量）</a></li><li class="post-toc-level-1"><em>1.2</em><a href="#查看某一时间段的IP访问量-4-5点">查看某一时间段的IP访问量(4-5点)</a></li><li class="post-toc-level-1"><em>1.3</em><a href="#查看访问最频繁的前100个IP">查看访问最频繁的前100个IP</a></li><li class="post-toc-level-1"><em>1.4</em><a href="#查看访问100次以上的IP">查看访问100次以上的IP</a></li><li class="post-toc-level-1"><em>1.5</em><a href="#查询某个IP的详细访问情况-按访问频率排序">查询某个IP的详细访问情况,按访问频率排序</a></li><li class="post-toc-level-0"><em>2</em><a href="#页面访问统计">页面访问统计</a></li><li class="post-toc-level-1"><em>2.1</em><a href="#查看访问最频的页面-TOP100">查看访问最频的页面(TOP100)</a></li><li class="post-toc-level-1"><em>2.2</em><a href="#查看访问最频的页面-排除php页面】-TOP100">查看访问最频的页面([排除php页面】(TOP100)</a></li><li class="post-toc-level-1"><em>2.3</em><a href="#查看页面访问次数超过100次的页面">查看页面访问次数超过100次的页面</a></li><li class="post-toc-level-1"><em>2.4</em><a href="#查看最近1000条记录，访问量最高的页面">查看最近1000条记录，访问量最高的页面</a></li></ol><ol><li class="post-toc-level-1"><em>2.5</em><a href="#每秒请求量统计">每秒请求量统计</a></li><li class="post-toc-level-1"><em>2.6</em><a href="#每分钟请求量统计">每分钟请求量统计</a></li><li class="post-toc-level-1"><em>2.7</em><a href="#每小时请求量统计">每小时请求量统计</a></li><li class="post-toc-level-0"><em>3</em><a href="#性能分析">性能分析</a></li><li class="post-toc-level-1"><em>3.1</em><a href="#列出传输时间超过-3-秒的页面，显示前20条">列出传输时间超过 3 秒的页面，显示前20条</a></li><li class="post-toc-level-1"><em>3.2</em><a href="#列出php页面请求时间超过3秒的页面，并统计其出现的次数，显示前100条">列出php页面请求时间超过3秒的页面，并统计其出现的次数，显示前100条</a></li><li class="post-toc-level-0"><em>4</em><a href="#蜘蛛抓取统计">蜘蛛抓取统计</a></li><li class="post-toc-level-1"><em>4.1</em><a href="#统计蜘蛛抓取次数">统计蜘蛛抓取次数</a></li><li class="post-toc-level-1"><em>4.2</em><a href="#统计蜘蛛抓取404的次数">统计蜘蛛抓取404的次数</a></li><li class="post-toc-level-0"><em>5</em><a href="#TCP连接统计">TCP连接统计</a></li><li class="post-toc-level-1"><em>5.1</em><a href="#查看当前TCP连接数">查看当前TCP连接数</a></li></ol><ol><li class="post-toc-level-1"><em>5.2</em><a href="#用tcpdump嗅探80端口的访问看看谁最高">用tcpdump嗅探80端口的访问看看谁最高</a></li><li class="post-toc-level-0"><em>6</em><a href="#常用维护命令">常用维护命令</a></li><li class="post-toc-level-1"><em>6.1</em><a href="#查看有多少个IP访问">查看有多少个IP访问</a></li><li class="post-toc-level-1"><em>6.2</em><a href="#查看某一个页面被访问的次数">查看某一个页面被访问的次数</a></li><li class="post-toc-level-1"><em>6.3</em><a href="#查看每一个IP访问了多少个页面">查看每一个IP访问了多少个页面</a></li><li class="post-toc-level-1"><em>6.4</em><a href="#将每个IP访问的页面数进行从小到大排序">将每个IP访问的页面数进行从小到大排序</a></li><li class="post-toc-level-1"><em>6.5</em><a href="#查看某一个IP访问了哪些页面">查看某一个IP访问了哪些页面</a></li><li class="post-toc-level-1"><em>6.6</em><a href="#去掉搜索引擎统计的页面">去掉搜索引擎统计的页面</a></li><li class="post-toc-level-1"><em>6.7</em><a href="#查看2015年8月16日14时这一个小时内有多少IP访问">查看2015年8月16日14时这一个小时内有多少IP访问</a></li><li class="post-toc-level-1"><em>6.8</em><a href="#查看访问前十个ip地址">查看访问前十个ip地址</a></li><li class="post-toc-level-1"><em>6.9</em><a href="#访问次数最多的10个文件或页面">访问次数最多的10个文件或页面</a></li></ol><ol><li class="post-toc-level-1"><em>6.10</em><a href="#通过子域名访问次数，依据referer来计算，稍有不准">通过子域名访问次数，依据referer来计算，稍有不准</a></li><li class="post-toc-level-1"><em>6.11</em><a href="#列出传输大小最大的几个文件">列出传输大小最大的几个文件</a></li><li class="post-toc-level-1"><em>6.12</em><a href="#列出输出大于200000byte-约200kb-的页面以及对应页面发生次数">列出输出大于200000byte(约200kb)的页面以及对应页面发生次数</a></li><li class="post-toc-level-1"><em>6.13</em><a href="#如果日志最后一列记录的是页面文件传输时间，则有列出到客户端最耗时的页面">如果日志最后一列记录的是页面文件传输时间，则有列出到客户端最耗时的页面</a></li><li class="post-toc-level-1"><em>6.14</em><a href="#列出最最耗时的页面-超过60秒的-的以及对应页面发生次数">列出最最耗时的页面(超过60秒的)的以及对应页面发生次数</a></li><li class="post-toc-level-1"><em>6.15</em><a href="#列出传输时间超过-30-秒的文件">列出传输时间超过 30 秒的文件</a></li><li class="post-toc-level-1"><em>6.16</em><a href="#列出当前服务器每一进程运行的数量，倒序排列">列出当前服务器每一进程运行的数量，倒序排列</a></li><li class="post-toc-level-1"><em>6.17</em><a href="#查看apache当前并发访问数">查看apache当前并发访问数</a></li><li class="post-toc-level-1"><em>6.18</em><a href="#可以使用如下参数查看数据">可以使用如下参数查看数据</a></li><li class="post-toc-level-1"><em>6.19</em><a href="#输出每个ip的连接数，以及总的各个状态的连接数">输出每个ip的连接数，以及总的各个状态的连接数</a></li><li class="post-toc-level-1"><em>6.20</em><a href="#其他的收集">其他的收集</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-service-log-common-commands"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <h2 id="IP相关统计"><a href="#IP相关统计" class="headerlink" title="IP相关统计"></a>IP相关统计</h2><h3 id="统计IP访问量（独立ip访问数量）"><a href="#统计IP访问量（独立ip访问数量）" class="headerlink" title="统计IP访问量（独立ip访问数量）"></a>统计IP访问量（独立ip访问数量）</h3><pre><code class="bash">awk &#39;{print $1}&#39; nginx.log | sort -n | uniq | wc -l</code></pre>
+<h3 id="查看某一时间段的IP访问量-4-5点"><a href="#查看某一时间段的IP访问量-4-5点" class="headerlink" title="查看某一时间段的IP访问量(4-5点)"></a>查看某一时间段的IP访问量(4-5点)</h3><pre><code class="bash">grep &quot;07/Apr/2017:0[4-5]&quot; nginx.log | awk &#39;{print $1}&#39; | sort | uniq -c| sort -nr | wc -l</code></pre>
+<h3 id="查看访问最频繁的前100个IP"><a href="#查看访问最频繁的前100个IP" class="headerlink" title="查看访问最频繁的前100个IP"></a>查看访问最频繁的前100个IP</h3><pre><code class="bash">awk &#39;{print $1}&#39; nginx.log | sort -n |uniq -c | sort -rn | head -n 100</code></pre>
+<h3 id="查看访问100次以上的IP"><a href="#查看访问100次以上的IP" class="headerlink" title="查看访问100次以上的IP"></a>查看访问100次以上的IP</h3><pre><code class="bash">awk &#39;{print $1}&#39; nginx.log | sort -n |uniq -c |awk &#39;{if($1 &gt;100) print $0}&#39;|sort -rn</code></pre>
+<h3 id="查询某个IP的详细访问情况-按访问频率排序"><a href="#查询某个IP的详细访问情况-按访问频率排序" class="headerlink" title="查询某个IP的详细访问情况,按访问频率排序"></a>查询某个IP的详细访问情况,按访问频率排序</h3><pre><code class="bash">grep &#39;127.0.01&#39; nginx.log |awk &#39;{print $7}&#39;|sort |uniq -c |sort -rn |head -n 100</code></pre>
+<h2 id="页面访问统计"><a href="#页面访问统计" class="headerlink" title="页面访问统计"></a>页面访问统计</h2><h3 id="查看访问最频的页面-TOP100"><a href="#查看访问最频的页面-TOP100" class="headerlink" title="查看访问最频的页面(TOP100)"></a>查看访问最频的页面(TOP100)</h3><pre><code class="bash">awk &#39;{print $7}&#39; nginx.log | sort |uniq -c | sort -rn | head -n 100</code></pre>
+<h3 id="查看访问最频的页面-排除php页面】-TOP100"><a href="#查看访问最频的页面-排除php页面】-TOP100" class="headerlink" title="查看访问最频的页面([排除php页面】(TOP100)"></a>查看访问最频的页面([排除php页面】(TOP100)</h3><pre><code class="bash">grep -v &quot;.php&quot;  nginx.log | awk &#39;{print $7}&#39; | sort |uniq -c | sort -rn | head -n 100</code></pre>
+<h3 id="查看页面访问次数超过100次的页面"><a href="#查看页面访问次数超过100次的页面" class="headerlink" title="查看页面访问次数超过100次的页面"></a>查看页面访问次数超过100次的页面</h3><pre><code class="bash">cat nginx.log | cut -d &#39; &#39; -f 7 | sort |uniq -c | awk &#39;{if ($1 &gt; 100) print $0}&#39; | less</code></pre>
+<h3 id="查看最近1000条记录，访问量最高的页面"><a href="#查看最近1000条记录，访问量最高的页面" class="headerlink" title="查看最近1000条记录，访问量最高的页面"></a>查看最近1000条记录，访问量最高的页面</h3><pre><code class="bash">tail -1000 nginx.log |awk &#39;{print $7}&#39;|sort|uniq -c|sort -nr|less</code></pre>
+<h3 id="每秒请求量统计"><a href="#每秒请求量统计" class="headerlink" title="每秒请求量统计"></a>每秒请求量统计</h3><p>统计每秒的请求数,top100的时间点(精确到秒)</p>
+<pre><code class="bash">awk &#39;{print $4}&#39; nginx.log |cut -c 14-21|sort|uniq -c|sort -nr|head -n 100</code></pre>
+<h3 id="每分钟请求量统计"><a href="#每分钟请求量统计" class="headerlink" title="每分钟请求量统计"></a>每分钟请求量统计</h3><p>统计每分钟的请求数,top100的时间点(精确到分钟)</p>
+<pre><code class="bash">awk &#39;{print $4}&#39; nginx.log |cut -c 14-18|sort|uniq -c|sort -nr|head -n 100</code></pre>
+<h3 id="每小时请求量统计"><a href="#每小时请求量统计" class="headerlink" title="每小时请求量统计"></a>每小时请求量统计</h3><p>统计每小时的请求数,top100的时间点(精确到小时)</p>
+<pre><code class="bash">awk &#39;{print $4}&#39; nginx.log |cut -c 14-15|sort|uniq -c|sort -nr|head -n 100</code></pre>
+<h2 id="性能分析"><a href="#性能分析" class="headerlink" title="性能分析"></a>性能分析</h2><p>在nginx log中最后一个字段加入<code>$request_time</code></p>
+<h3 id="列出传输时间超过-3-秒的页面，显示前20条"><a href="#列出传输时间超过-3-秒的页面，显示前20条" class="headerlink" title="列出传输时间超过 3 秒的页面，显示前20条"></a>列出传输时间超过 3 秒的页面，显示前20条</h3><pre><code class="bash">cat nginx.log|awk &#39;($NF &gt; 3){print $7}&#39;|sort -n|uniq -c|sort -nr|head -20</code></pre>
+<h3 id="列出php页面请求时间超过3秒的页面，并统计其出现的次数，显示前100条"><a href="#列出php页面请求时间超过3秒的页面，并统计其出现的次数，显示前100条" class="headerlink" title="列出php页面请求时间超过3秒的页面，并统计其出现的次数，显示前100条"></a>列出php页面请求时间超过3秒的页面，并统计其出现的次数，显示前100条</h3><pre><code class="bash">cat nginx.log|awk &#39;($NF &gt; 1 &amp;&amp;  $7~/\.php/){print $7}&#39;|sort -n|uniq -c|sort -nr|head -100</code></pre>
+<h2 id="蜘蛛抓取统计"><a href="#蜘蛛抓取统计" class="headerlink" title="蜘蛛抓取统计"></a>蜘蛛抓取统计</h2><h3 id="统计蜘蛛抓取次数"><a href="#统计蜘蛛抓取次数" class="headerlink" title="统计蜘蛛抓取次数"></a>统计蜘蛛抓取次数</h3><pre><code class="bash">grep &#39;Baiduspider&#39; nginx.log |wc -l</code></pre>
+<h3 id="统计蜘蛛抓取404的次数"><a href="#统计蜘蛛抓取404的次数" class="headerlink" title="统计蜘蛛抓取404的次数"></a>统计蜘蛛抓取404的次数</h3><pre><code class="bash">grep &#39;Baiduspider&#39; nginx.log |grep &#39;404&#39; | wc -l</code></pre>
+<h2 id="TCP连接统计"><a href="#TCP连接统计" class="headerlink" title="TCP连接统计"></a>TCP连接统计</h2><h3 id="查看当前TCP连接数"><a href="#查看当前TCP连接数" class="headerlink" title="查看当前TCP连接数"></a>查看当前TCP连接数</h3><pre><code class="bash">netstat -tan | grep &quot;ESTABLISHED&quot; | grep &quot;:80&quot; | wc -l</code></pre>
+<h3 id="用tcpdump嗅探80端口的访问看看谁最高"><a href="#用tcpdump嗅探80端口的访问看看谁最高" class="headerlink" title="用tcpdump嗅探80端口的访问看看谁最高"></a>用tcpdump嗅探80端口的访问看看谁最高</h3><pre><code class="bash">tcpdump -i eth0 -tnn dst port 80 -c 1000 | awk -F&quot;.&quot; &#39;{print $1&quot;.&quot;$2&quot;.&quot;$3&quot;.&quot;$4}&#39; | sort | uniq -c | sort -nr</code></pre>
+<h2 id="常用维护命令"><a href="#常用维护命令" class="headerlink" title="常用维护命令"></a>常用维护命令</h2><h3 id="查看有多少个IP访问"><a href="#查看有多少个IP访问" class="headerlink" title="查看有多少个IP访问"></a>查看有多少个IP访问</h3><pre><code class="bash">awk &#39;{print $1}&#39; log_file|sort|uniq|wc -l</code></pre>
+<pre><code class="bash">wc -l 看看有多少行</code></pre>
+<h3 id="查看某一个页面被访问的次数"><a href="#查看某一个页面被访问的次数" class="headerlink" title="查看某一个页面被访问的次数"></a>查看某一个页面被访问的次数</h3><pre><code class="bash">grep &quot;/index.php&quot; log_file | wc -l</code></pre>
+<h3 id="查看每一个IP访问了多少个页面"><a href="#查看每一个IP访问了多少个页面" class="headerlink" title="查看每一个IP访问了多少个页面"></a>查看每一个IP访问了多少个页面</h3><pre><code class="bash">awk &#39;{++S[$1]} END {for (a in S) print a,S[a]}&#39; log_file &gt; log.txt</code></pre>
+<pre><code class="bash">sort -n -t &#39; &#39; -k 2 log.txt # 配合sort进一步排序</code></pre>
+<h3 id="将每个IP访问的页面数进行从小到大排序"><a href="#将每个IP访问的页面数进行从小到大排序" class="headerlink" title="将每个IP访问的页面数进行从小到大排序"></a>将每个IP访问的页面数进行从小到大排序</h3><pre><code class="bash">awk &#39;{++S[$1]} END {for (a in S) print S[a],a}&#39; log_file | sort -n</code></pre>
+<h3 id="查看某一个IP访问了哪些页面"><a href="#查看某一个IP访问了哪些页面" class="headerlink" title="查看某一个IP访问了哪些页面"></a>查看某一个IP访问了哪些页面</h3><pre><code class="bash">grep ^111.111.111.111 log_file| awk &#39;{print $1,$7}&#39;</code></pre>
+<h3 id="去掉搜索引擎统计的页面"><a href="#去掉搜索引擎统计的页面" class="headerlink" title="去掉搜索引擎统计的页面"></a>去掉搜索引擎统计的页面</h3><pre><code class="bash">awk &#39;{print $12,$1}&#39; log_file | grep ^\&quot;Mozilla | awk &#39;{print $2}&#39; |sort | uniq | wc -l</code></pre>
+<h3 id="查看2015年8月16日14时这一个小时内有多少IP访问"><a href="#查看2015年8月16日14时这一个小时内有多少IP访问" class="headerlink" title="查看2015年8月16日14时这一个小时内有多少IP访问"></a>查看2015年8月16日14时这一个小时内有多少IP访问</h3><pre><code class="bash">awk &#39;{print $4,$1}&#39; log_file | grep 16/Aug/2015:14 | awk &#39;{print $2}&#39;| sort | uniq | wc -l</code></pre>
+<h3 id="查看访问前十个ip地址"><a href="#查看访问前十个ip地址" class="headerlink" title="查看访问前十个ip地址"></a>查看访问前十个ip地址</h3><pre><code class="bash">awk &#39;{print $1}&#39; |sort|uniq -c|sort -nr |head -10 access_log</code></pre>
+<p><strong>uniq -c 相当于分组统计并把统计数放在最前面</strong></p>
+<pre><code class="bash">cat access.log|awk &#39;{print $1}&#39;|sort|uniq -c|sort -nr|head -10
+cat access.log|awk &#39;{counts[$(11)]+=1}; END {for(url in counts) print counts[url], url}</code></pre>
+<h3 id="访问次数最多的10个文件或页面"><a href="#访问次数最多的10个文件或页面" class="headerlink" title="访问次数最多的10个文件或页面"></a>访问次数最多的10个文件或页面</h3><pre><code class="bash">cat log_file|awk &#39;{print $11}&#39;|sort|uniq -c|sort -nr | head -10</code></pre>
+<pre><code class="bash">awk &#39;{print $1}&#39; log_file |sort -n -r |uniq -c | sort -n -r | head -20 # 访问量最大的前20个ip</code></pre>
+<h3 id="通过子域名访问次数，依据referer来计算，稍有不准"><a href="#通过子域名访问次数，依据referer来计算，稍有不准" class="headerlink" title="通过子域名访问次数，依据referer来计算，稍有不准"></a>通过子域名访问次数，依据referer来计算，稍有不准</h3><pre><code class="bash">cat access.log | awk &#39;{print $11}&#39; | sed -e &#39; s/http:\/\///&#39; -e &#39; s/\/.*//&#39; | sort | uniq -c | sort -rn | head -20</code></pre>
+<h3 id="列出传输大小最大的几个文件"><a href="#列出传输大小最大的几个文件" class="headerlink" title="列出传输大小最大的几个文件"></a>列出传输大小最大的几个文件</h3><pre><code class="bash">cat www.111cn.net |awk &#39;($7~/\.php/){print $10 &quot; &quot; $1 &quot; &quot; $4 &quot; &quot; $7}&#39;|sort -nr|head -100</code></pre>
+<h3 id="列出输出大于200000byte-约200kb-的页面以及对应页面发生次数"><a href="#列出输出大于200000byte-约200kb-的页面以及对应页面发生次数" class="headerlink" title="列出输出大于200000byte(约200kb)的页面以及对应页面发生次数"></a>列出输出大于200000byte(约200kb)的页面以及对应页面发生次数</h3><pre><code class="bash">cat www.111cn.net |awk &#39;($10 &gt; 200000 &amp;&amp; $7~/\.php/){print $7}&#39;|sort -n|uniq -c|sort -nr|head -100</code></pre>
+<h3 id="如果日志最后一列记录的是页面文件传输时间，则有列出到客户端最耗时的页面"><a href="#如果日志最后一列记录的是页面文件传输时间，则有列出到客户端最耗时的页面" class="headerlink" title="如果日志最后一列记录的是页面文件传输时间，则有列出到客户端最耗时的页面"></a>如果日志最后一列记录的是页面文件传输时间，则有列出到客户端最耗时的页面</h3><pre><code class="bash">cat www.111cn.net |awk &#39;($7~/\.php/){print $NF &quot; &quot; $1 &quot; &quot; $4 &quot; &quot; $7}&#39;|sort -nr|head -100</code></pre>
+<h3 id="列出最最耗时的页面-超过60秒的-的以及对应页面发生次数"><a href="#列出最最耗时的页面-超过60秒的-的以及对应页面发生次数" class="headerlink" title="列出最最耗时的页面(超过60秒的)的以及对应页面发生次数"></a>列出最最耗时的页面(超过60秒的)的以及对应页面发生次数</h3><pre><code class="bash">cat www.111cn.net |awk &#39;($NF &gt; 60 &amp;&amp; $7~/\.php/){print $7}&#39;|sort -n|uniq -c|sort -nr|head -100</code></pre>
+<h3 id="列出传输时间超过-30-秒的文件"><a href="#列出传输时间超过-30-秒的文件" class="headerlink" title="列出传输时间超过 30 秒的文件"></a>列出传输时间超过 30 秒的文件</h3><pre><code class="bash">cat www.111cn.net |awk &#39;($NF &gt; 30){print $7}&#39;|sort -n|uniq -c|sort -nr|head -20</code></pre>
+<h3 id="列出当前服务器每一进程运行的数量，倒序排列"><a href="#列出当前服务器每一进程运行的数量，倒序排列" class="headerlink" title="列出当前服务器每一进程运行的数量，倒序排列"></a>列出当前服务器每一进程运行的数量，倒序排列</h3><pre><code class="bash">ps -ef | awk -F &#39; &#39; &#39;{print $8 &quot; &quot; $9}&#39; |sort | uniq -c |sort -nr |head -20</code></pre>
+<h3 id="查看apache当前并发访问数"><a href="#查看apache当前并发访问数" class="headerlink" title="查看apache当前并发访问数"></a>查看apache当前并发访问数</h3><pre><code class="bash"># 对比httpd.conf中MaxClients的数字差距多少。
+netstat -an | grep ESTABLISHED | wc -l</code></pre>
+<h3 id="可以使用如下参数查看数据"><a href="#可以使用如下参数查看数据" class="headerlink" title="可以使用如下参数查看数据"></a>可以使用如下参数查看数据</h3><pre><code class="bash">ps -ef|grep httpd|wc -l</code></pre>
+<pre><code class="bash"># 1388
+# 统计httpd进程数，连个请求会启动一个进程，使用于Apache服务器。
+#表示Apache能够处理1388个并发请求，这个值Apache可根据负载情况自动调整。
+netstat -nat|grep -i &quot;80&quot;|wc -l
+
+# 4341
+# netstat -an会打印系统当前网络链接状态，而grep -i &quot;80&quot;是用来提取与80端口有关的连接的，wc -l进行连接数统计。
+#最终返回的数字就是当前所有80端口的请求总数。
+netstat -na|grep ESTABLISHED|wc -l
+
+# 376
+# netstat -an会打印系统当前网络链接状态，而grep ESTABLISHED 提取出已建立连接的信息。 然后wc -l统计。
+# 最终返回的数字就是当前所有80端口的已建立连接的总数。
+netstat -nat||grep ESTABLISHED|wc
+
+# 可查看所有建立连接的详细记录</code></pre>
+<h3 id="输出每个ip的连接数，以及总的各个状态的连接数"><a href="#输出每个ip的连接数，以及总的各个状态的连接数" class="headerlink" title="输出每个ip的连接数，以及总的各个状态的连接数"></a>输出每个ip的连接数，以及总的各个状态的连接数</h3><pre><code class="bash">netstat -n | awk &#39;/^tcp/ {n=split($(NF-1),array,&quot;:&quot;);if(n&lt;=2)++S[array[(1)]];else++S[array[(4)]];++s[$NF];++N} END {for(a in S){printf(&quot;%-20s %s\n&quot;, a, S[a]);++I}printf(&quot;%-20s %s\n&quot;,&quot;TOTAL_IP&quot;,I);for(a in s) printf(&quot;%-20s %s\n&quot;,a, s[a]);printf(&quot;%-20s %s\n&quot;,&quot;TOTAL_LINK&quot;,N);}&#39;</code></pre>
+<h3 id="其他的收集"><a href="#其他的收集" class="headerlink" title="其他的收集"></a>其他的收集</h3><p>分析日志文件下 2012-05-04 访问页面最高 的前20个 URL 并排序</p>
+<pre><code class="bash">cat access.log |grep &#39;04/May/2012&#39;| awk &#39;{print $11}&#39;|sort|uniq -c|sort -nr|head -20 </code></pre>
+<p>查询受访问页面的URL地址中 含有 <a href="http://www.abc.com" target="_blank" rel="noopener">www.abc.com</a> 网址的 IP 地址</p>
+<pre><code class="bash">cat access_log | awk &#39;($11~/\www.abc.com/){print $1}&#39;|sort|uniq -c|sort -nr </code></pre>
+<p>获取访问最高的10个IP地址 同时也可以按时间来查询</p>
+<pre><code class="bash">cat linewow-access.log|awk &#39;{print $1}&#39;|sort|uniq -c|sort -nr|head -10</code></pre>
+<p>时间段查询日志时间段的情况</p>
+<pre><code class="bash">cat log_file | egrep &#39;15/Aug/2015|16/Aug/2015&#39; |awk &#39;{print $1}&#39;|sort|uniq -c|sort -nr|head -10</code></pre>
+<p>分析2015/8/15 到 2015/8/16 访问”/index.php?g=Member&amp;m=Public&amp;a=sendValidCode”的IP倒序排列</p>
+<pre><code class="bash">cat log_file | egrep &#39;15/Aug/2015|16/Aug/2015&#39; | awk &#39;{if($7 == &quot;/index.php?g=Member&amp;m=Public&amp;a=sendValidCode&quot;) print $1,$7}&#39;|sort|uniq -c|sort -nr </code></pre>
+<pre><code class="bash">#($7~/.php/) $7里面包含.php的就输出,本句的意思是最耗时的一百个PHP页面
+cat log_file |awk &#39;($7~/\.php/){print $NF &quot; &quot; $1 &quot; &quot; $4 &quot; &quot; $7}&#39;|sort -nr|head -100</code></pre>
+<p>列出最最耗时的页面(超过60秒的)的以及对应页面发生次数</p>
+<pre><code class="bash">cat access.log |awk &#39;($NF &gt; 60 &amp;&amp; $7~/\.php/){print $7}&#39;|sort -n|uniq -c|sort -nr|head -100 </code></pre>
+<p>统计网站流量（G)</p>
+<pre><code class="bash">cat access.log |awk &#39;{sum+=$10} END {print sum/1024/1024/1024}&#39;</code></pre>
+<p>统计404的连接</p>
+<pre><code class="bash">awk &#39;($9 ~/404/)&#39; access.log | awk &#39;{print $9,$7}&#39; | sort</code></pre>
+<p>统计http status.</p>
+<pre><code class="bash">cat access.log |awk &#39;{counts[$(9)]+=1}; END {for(code in counts) print code, counts[code]}&#39; 
+cat access.log |awk &#39;{print $9}&#39;|sort|uniq -c|sort -rn</code></pre>
+<p>每秒并发</p>
+<pre><code class="bash">watch &quot;awk &#39;{if($9~/200|30|404/)COUNT[$4]++}END{for( a in COUNT) print a,COUNT[a]}&#39; log_file|sort -k 2 -nr|head -n10&quot;</code></pre>
+<p>带宽统计</p>
+<pre><code class="bash">cat apache.log |awk &#39;{if($7~/GET/) count++}END{print &quot;client_request=&quot;count}&#39; 
+cat apache.log |awk &#39;{BYTE+=$11}END{print &quot;client_kbyte_out=&quot;BYTE/1024&quot;KB&quot;}&#39;</code></pre>
+<p>找出某天访问次数最多的10个IP</p>
+<pre><code class="bash">cat /tmp/access.log | grep &quot;20/Mar/2011&quot; |awk &#39;{print $3}&#39;|sort |uniq -c|sort -nr|head</code></pre>
+<p>当天ip连接数最高的ip都在干些什么</p>
+<pre><code class="bash">cat access.log | grep &quot;10.0.21.17&quot; | awk &#39;{print $8}&#39; | sort | uniq -c | sort -nr | head -n 10</code></pre>
+<p>小时单位里ip连接数最多的10个时段</p>
+<pre><code class="bash">awk -vFS=&quot;[:]&quot; &#39;{gsub(&quot;-.*&quot;,&quot;&quot;,$1);num[$2&quot; &quot;$1]++}END{for(i in num)print i,num[i]}&#39; log_file | sort -n -k 3 -r | head -10</code></pre>
+<p>找出访问次数最多的几个分钟</p>
+<pre><code class="bash">awk &#39;{print $1}&#39; access.log | grep &quot;20/Mar/2011&quot; |cut -c 14-18|sort|uniq -c|sort -nr|head</code></pre>
+<p>取5分钟日志</p>
+<pre><code class="bash">if [ $DATE_MINUTE != $DATE_END_MINUTE ] ;then #则判断开始时间戳与结束时间戳是否相等START_LINE=sed -n &quot;/$DATE_MINUTE/=&quot; $APACHE_LOG|head -n1 #如果不相等，则取出开始时间戳的行号，与结束时间戳的行号</code></pre>
+<p>查看tcp的链接状态</p>
+<pre><code class="bash">netstat -nat |awk &#39;{print $6}&#39;|sort|uniq -c|sort -rn
+netstat -n | awk &#39;/^tcp/ {++S[$NF]};END {for(a in S) print a, S[a]}&#39;
+netstat -n | awk &#39;/^tcp/ {++state[$NF]}; END {for(key in state) print key,&quot;\t&quot;,state[key]}&#39;
+netstat -n | awk &#39;/^tcp/ {++arr[$NF]};END {for(k in arr) print k,&quot;\t&quot;,arr[k]}&#39;
+netstat -n |awk &#39;/^tcp/ {print $NF}&#39;|sort|uniq -c|sort -rn
+netstat -ant | awk &#39;{print $NF}&#39; | grep -v &#39;[a-z]&#39; | sort | uniq -c
+netstat -ant|awk &#39;/ip:80/{split($5,ip,&quot;:&quot;);++S[ip[1]]}END{for (a in S) print S[a],a}&#39; |sort -n
+netstat -ant|awk &#39;/:80/{split($5,ip,&quot;:&quot;);++S[ip[1]]}END{for (a in S) print S[a],a}&#39; |sort -rn|head -n 10
+awk &#39;BEGIN{printf (&quot;http_code\tcount_num\n&quot;)}{COUNT[$10]++}END{for (a in COUNT) printf a&quot;\t\t&quot;COUNT[a]&quot;\n&quot;}&#39;
+
+# 查找请求数前20个IP（常用于查找攻来源）：
+netstat -anlp|grep 80|grep tcp|awk &#39;{print $5}&#39;|awk -F: &#39;{print $1}&#39;|sort|uniq -c|sort -nr|head -n20 
+netstat -ant |awk &#39;/:80/{split($5,ip,&quot;:&quot;);++A[ip[1]]}END{for(i in A) print A[i],i}&#39; |sort -rn|head -n20
+
+# 用tcpdump嗅探80端口的访问看看谁最高
+tcpdump -i eth0 -tnn dst port 80 -c 1000 | awk -F&quot;.&quot; &#39;{print $1&quot;.&quot;$2&quot;.&quot;$3&quot;.&quot;$4}&#39; | sort | uniq -c | sort -nr |head -20</code></pre>
+<p>查找较多time_wait连接</p>
+<pre><code class="bash">netstat -n|grep TIME_WAIT|awk &#39;{print $5}&#39;|sort|uniq -c|sort -rn|head -n20</code></pre>
+<p>找查较多的SYN连接</p>
+<pre><code class="bash">netstat -an | grep SYN | awk &#39;{print $5}&#39; | awk -F: &#39;{print $1}&#39; | sort | uniq -c | sort -nr | more</code></pre>
+<p>根据端口列进程</p>
+<pre><code class="bash">netstat -ntlp | grep 80 | awk &#39;{print $7}&#39; | cut -d/ -f1</code></pre>
+<p>查看了连接数和当前的连接数</p>
+<pre><code class="bash">netstat -ant | grep $ip:80 | wc -l 
+netstat -ant | grep $ip:80 | grep EST | wc -l</code></pre>
+<p>查看IP访问次数</p>
+<pre><code class="bash">netstat -nat|grep &quot;:80&quot;|awk &#39;{print $5}&#39; |awk -F: &#39;{print $1}&#39; | sort| uniq -c|sort -n</code></pre>
+<p>Linux命令分析当前的链接状况</p>
+<pre><code class="bash">netstat -n | awk &#39;/^tcp/ {++S[$NF]} END {for(a in S) print a, S[a]}&#39; 
+
+watch &quot;netstat -n | awk &#39;/^tcp/ {++S[\$NF]} END {for(a in S) print a, S[a]}&#39;&quot; # 通过watch可以一直监控</code></pre>
+<ul>
+<li>LAST_ACK 5 # 关闭一个TCP连接需要从两个方向上分别进行关闭，双方都是通过发送FIN来表示单方向数据的关闭，当通信双方发送了最后一个FIN的时候，发送方此时处于LAST_ACK状态，当发送方收到对方的确认（Fin的Ack确认）后才真正关闭整个TCP连接；</li>
+<li>SYN_RECV 30 # 表示正在等待处理的请求数；</li>
+<li>ESTABLISHED 1597 # 表示正常数据传输状态；</li>
+<li>FIN_WAIT1 51 # 表示server端主动要求关闭tcp连接；</li>
+<li>FIN_WAIT2 504 # 表示客户端中断连接；</li>
+<li>TIME_WAIT 1057 # 表示处理完毕，等待超时结束的请求数；</li>
+</ul>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.166Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/service-log-common-commands/&title=《常用的服务器日志分析命令》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/service-log-common-commands/&title=《常用的服务器日志分析命令》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/service-log-common-commands/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《常用的服务器日志分析命令》 — codante&url=http://codante.org/post/service-log-common-commands/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/service-log-common-commands/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+<div class="post-category-list flex-column">
+    <a class="post-category-link" href="/blog/">首页</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/">研发之路</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/服务器/">服务器</a>
+</div>
+
+
+        
+<div class="post-tag-list flex-column">
+    <a class="post-tag-link" href="/blog/tag/Linux/">Linux</a><a class="post-tag-link" href="/blog/tag/分析/">分析</a><a class="post-tag-link" href="/blog/tag/日志/">日志</a><a class="post-tag-link" href="/blog/tag/运维/">运维</a>
+</div>
+
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/linux-server-deny-global-network/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">禁止外网ssh登录LINUX服务器</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/files-mime-type/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">文件类型与 mime-type 对对照表</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

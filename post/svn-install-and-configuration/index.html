@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>SVN安装及配置流程 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">SVN安装及配置流程</h1>
+<div class="post-meta">
+    
+
+    
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#卸载系统自带的svn">卸载系统自带的svn</a></li><li class="post-toc-level-0"><em>2</em><a href="#安装apr">安装apr</a></li><li class="post-toc-level-0"><em>3</em><a href="#安装apr-util">安装apr-util</a></li><li class="post-toc-level-0"><em>4</em><a href="#安装subversion">安装subversion</a></li></ol><ol><li class="post-toc-level-0"><em>5</em><a href="#安装apache">安装apache</a></li><li class="post-toc-level-0"><em>6</em><a href="#配置">配置</a></li><li class="post-toc-level-1"><em>6.1</em><a href="#修改httpd-conf">修改httpd.conf</a></li><li class="post-toc-level-1"><em>6.2</em><a href="#创建版本库目录">创建版本库目录</a></li></ol><ol><li class="post-toc-level-1"><em>6.3</em><a href="#添加用户和密码">添加用户和密码</a></li><li class="post-toc-level-1"><em>6.4</em><a href="#svn项目权限分配">svn项目权限分配</a></li><li class="post-toc-level-0"><em>7</em><a href="#附1：与CVS对比">附1：与CVS对比</a></li><li class="post-toc-level-0"><em>8</em><a href="#附2：SVN的发展历史">附2：SVN的发展历史</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-svn-install-and-configuration"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <h2 id="卸载系统自带的svn"><a href="#卸载系统自带的svn" class="headerlink" title="卸载系统自带的svn"></a>卸载系统自带的svn</h2><pre><code class="bash">rpm -e --allmatches subversion</code></pre>
+<h2 id="安装apr"><a href="#安装apr" class="headerlink" title="安装apr"></a>安装apr</h2><pre><code class="bash">wget http://apache.mirror.phpchina.com/apr/apr-1.3.5.tar.gz
+./configure
+make
+make install</code></pre>
+<h2 id="安装apr-util"><a href="#安装apr-util" class="headerlink" title="安装apr-util"></a>安装apr-util</h2><pre><code class="bash">wget http://apache.mirror.phpchina.com/apr/apr-util-1.3.7.tar.gz
+./configure --with-apr=/usr/local/apr
+make
+make install</code></pre>
+<h2 id="安装subversion"><a href="#安装subversion" class="headerlink" title="安装subversion"></a>安装subversion</h2><pre><code class="bash">wget http://subversion.tigris.org/downloads/subversion-1.4.5.tar.gz
+./configure \
+--with-apxs=/usr/local/webserver/apache_web_001/bin/apxs \
+--prefix=/usr/local/subversion \
+--with-apr=/usr/local/apr/bin/apr-1-config \
+--with-apr-util=/usr/local/apr/bin/apu-1-config \
+--with-ssl \
+--with-zlib \
+--enable-maintainer-mode \
+--bindir=/usr/bin/ LDFLAGS=&quot;-L/usr/lib64 -L/lib64&quot;
+make
+make install</code></pre>
+<ul>
+<li>如果使用的是64位系统，一定要加上这句 <strong>- -bindir=/usr/bin/ LDFLAGS=”-L/usr/lib64 -L/lib64”</strong></li>
+</ul>
+<h2 id="安装apache"><a href="#安装apache" class="headerlink" title="安装apache"></a>安装apache</h2><pre><code class="bash">wget http://apache.etoak.com/httpd/httpd-2.2.11.tar.gz
+./configure \
+--prefix=/usr/local/webserver/apache_svn \
+--enable-dav \
+--enable-modules=so \
+--enable-maintainer-mode --enable-rewrite \
+--with-apr=/usr/local/apr/bin/apr-1-config \
+--with-apr-util=/usr/local/apr/bin/apu-1-config
+make
+make install</code></pre>
+<ul>
+<li>一定要加上 <strong>- -enable-dav</strong>，后面配置svn的时候会用到<br><a href="/blog/2010/06/23/apache-install-and-configuration.html">更多关于apache的安装及配置</a></li>
+</ul>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="修改httpd-conf"><a href="#修改httpd-conf" class="headerlink" title="修改httpd.conf"></a>修改httpd.conf</h3><p>添加以下信息</p>
+<pre><code class="ini">LoadModule dav_svn_module modules/mod_dav_svn.so
+LoadModule authz_svn_module modules/mod_authz_svn.so</code></pre>
+<p>在末尾添加</p>
+<pre><code class="ini">&lt;Location /svn&gt;
+  DAV svn
+  SVNParentPath /home/nuptsoft/subversion_project  (此处配置你的版本库根目录)
+  AuthType Basic
+  AuthName &quot;Subversion repository&quot;  （此处字符串内容修改为提示对话框标题）
+  AuthUserFile /home/nuptsoft/passwd    (此处修改为访问版本库用户的文件，用apache 的 htpasswd命令生成)
+  AuthzSVNAccessFile /home/nuptsoft/auth （此处修改为访问版本库权限的文件）
+  Require valid-user
+&lt;/Location&gt;</code></pre>
+<h3 id="创建版本库目录"><a href="#创建版本库目录" class="headerlink" title="创建版本库目录"></a>创建版本库目录</h3><pre><code class="bash">svnadmin create /home/nuptsoft/subversion_project/test</code></pre>
+<h3 id="添加用户和密码"><a href="#添加用户和密码" class="headerlink" title="添加用户和密码"></a>添加用户和密码</h3><p>运行apache的htpasswd</p>
+<pre><code class="bash">/usr/local/webserver/apache_svn/bin/htpasswd -cm /home/nuptsoft/passwd admin
+/usr/local/webserver/apache_svn/bin/htpasswd -m /home/nuptsoft/passwd somebody</code></pre>
+<p>第一次执行要加参数 <strong>c</strong> 来建立文件</p>
+<h3 id="svn项目权限分配"><a href="#svn项目权限分配" class="headerlink" title="svn项目权限分配"></a>svn项目权限分配</h3><p>通过修改auth文件来配置权限<br>用户组格式：</p>
+<pre><code class="ini">[groups]
+&lt;用户组名&gt; = &lt;用户1&gt;,&lt;用户2&gt;</code></pre>
+<p>其中，1个用户组可以包含1个或多个用户，用户间以逗号分隔。<br>版本库目录格式：</p>
+<pre><code class="ini">[&lt;版本库&gt;:/项目/目录]
+@&lt;用户组名&gt; = &lt;权限&gt;
+&lt;用户名&gt; = &lt;权限&gt;</code></pre>
+<p>其中，方框号内部分可以有多种写法:</p>
+<p>/,表示根目录及以下。根目录是svnserve启动时指定的，我们指定为/opt/svndata。这样，/就是表示对全部版本库设置权限。</p>
+<p>repos1:/,表示对版本库1设置权限</p>
+<p>repos2:/abc, ,表示对版本库2中的abc项目设置权限</p>
+<p>repos2:/abc/aaa, ,表示对版本库2中的abc项目的aaa目录设置权限</p>
+<p>权限主体可以是用户组、用户或<em>，用户组在前面加@，</em>表示全部用户。权限可以是w、r、wr和空，空表示没有任何权限。</p>
+<p>示例：</p>
+<pre><code>[groups]
+admin = alan
+[/]
+@admin = rw
+[repos1:/abc/aaa]
+somebody = rw
+[repos2:/pass]
+somebody =</code></pre><h2 id="附1：与CVS对比"><a href="#附1：与CVS对比" class="headerlink" title="附1：与CVS对比"></a>附1：与CVS对比</h2><p>在SVN之前，CVS是使用最广泛的版本管理软件。SVN与CVS对比的优点如下：</p>
+<ul>
+<li>统一的版本号。CVS是对每个文件顺序编排版本号，在某一时间各文件的版本号各不相同。而Subversion下，任何一次提交都会对所有文件增加到同一 个新版本号，即使是提交并不涉及的文件。所以，各文件在某任意时间的版本号是相同的。版本号相同的文件构成软件的一个版本。</li>
+<li>原子提交。一次提交不管是单个还是多个文件，都是作为一个整体提交的。在这当中发生的意外例如传输中断，不会引起数据库的不完整和数据损坏。</li>
+<li>重命名、复制、删除文件等动作都保存在版本历史记录当中。</li>
+<li>对于二进制文件，使用了节省空间的保存方法。（简单的理解，就是只保存和上一版本不同之处）</li>
+<li>目录也有版本历史。整个目录树可以被移动或者复制，操作很简单，而且能够保留全部版本记录。</li>
+<li>分支的开销非常小。</li>
+<li>优化过的数据库访问，使得一些操作不必访问数据库就可以做到。这样减少了很多不必要的和数据库主机之间的网络流量。</li>
+</ul>
+<h2 id="附2：SVN的发展历史"><a href="#附2：SVN的发展历史" class="headerlink" title="附2：SVN的发展历史"></a>附2：SVN的发展历史</h2><p>早在2000年，CollabNet, Inc.就开始召集开发人员开发CVS的替代品。CollabNet 提供一套名为SourceCast协同工作套件，其中的一部分组件是版本控制。 虽然SourceCast使用CVS作为其最初的版本控制系统，但是CVS的种种限制从一开始就处处可见，最后CollabNet明白必须要找到一个更好 的解决方案。不幸的是，至少在免费license中，因为没有更好的选择，CVS已经广泛成为了开源世界中事实上的标准。所以CollabNet决定开发 一个新的版本控制系统，保留CVS的基本特性但去除CVS的bug和不好的特性。<br>在2000年2月，他们联系《使用CVS开发开源项目》（Open Source Development with CVS）(Coriolis, 1999)的作者Karl Fogel，并征求了他是否愿意在这个新的项目中担任一个角色。巧合的是，当时Karl已经和他的朋友Jim Blandy讨论了一个关于新的版本控制系统的设计。在1995年，这两人就成立了Cyclic Software，一个提供CVS的商业支持的软件公司。虽然他们经营商业服务，但是仍然在每天都在工作中使用CVS。使用CVS的挫折感使得Jim认真 思考更好的方法来管理数据，不但确定名字为”Subversion”，而且完成了Subversion档案库的基础设计。<br>当CollabNet的电话到来时，Karl立即答应了加入项目中，而且Jim让他的雇主 RedHat Software同意让他在这个项目中不定期工作。CollabNet雇用了Karl和Ben Collins-Sussman，并在5月开始了详细设计工作。在得到了来自CollabNet的Brian Behlendorf、Jason Robbins和Greg Stein（当时是一名活跃在WebDAV/DeltaV规范过程的自由程序员）很多创意的帮助下，Subversion很快地引起了一个活跃开发者社区 的注意。它找出并欢迎很多同样在CVS上受到挫折的社员能来为这个项目做点什么。<br>Subversion 最初的设计Team定下了几个简单的目标。 它必须在功能上可取代 CVS，也就是说, 所有 CVS 可做到的事, 它都要能够作到。 在修正最明显的瑕疵的同时, 还要保留相同的开发模式。 还有, Subversion 应该要和 CVS 很相像, 任何 CVS 使用者只要花费少许的力气, 就可以很快地上手。<br>经过十四个月的编码后, Subversion 于2001年8月31日开始实现 “自行管理”。 也就是说, 开发人员不再使用 CVS 来管理 Subversion 的代码, 而以 Subversion 自己来管理。</p>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.169Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/svn-install-and-configuration/&title=《SVN安装及配置流程》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/svn-install-and-configuration/&title=《SVN安装及配置流程》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/svn-install-and-configuration/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《SVN安装及配置流程》 — codante&url=http://codante.org/post/svn-install-and-configuration/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/svn-install-and-configuration/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+
+        
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/apache-install-and-configuration/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">linux下的httpd(apache)安装及配置</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/php-header-example/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">PHP中header的使用范例</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

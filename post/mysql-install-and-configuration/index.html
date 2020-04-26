@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>Mysql安装及配置 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">Mysql安装及配置</h1>
+<div class="post-meta">
+    
+
+    
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#下载源码包">下载源码包</a></li><li class="post-toc-level-0"><em>2</em><a href="#创建mysql用户">创建mysql用户</a></li><li class="post-toc-level-0"><em>3</em><a href="#编译">编译</a></li><li class="post-toc-level-0"><em>4</em><a href="#安装">安装</a></li></ol><ol><li class="post-toc-level-0"><em>5</em><a href="#初始化数据库">初始化数据库</a></li><li class="post-toc-level-0"><em>6</em><a href="#启动">启动</a></li><li class="post-toc-level-0"><em>7</em><a href="#添加开机启动">添加开机启动</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-mysql-install-and-configuration"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <p>感谢老男孩赐予的知识。 老男孩（QQ:49000448， mail:<a href="mailto:49000448@qq.com" target="_blank" rel="noopener">49000448@qq.com</a>）</p>
+<h2 id="下载源码包"><a href="#下载源码包" class="headerlink" title="下载源码包"></a>下载源码包</h2><pre><code class="bash">wget http://dev.mysql.com/get/Downloads/MySQL-5.1/mysql-5.1.41-linux-i686-glibc23.tar.gz/from/http://mysql.cdpa.nsysu.edu.tw/</code></pre>
+<h2 id="创建mysql用户"><a href="#创建mysql用户" class="headerlink" title="创建mysql用户"></a>创建mysql用户</h2><pre><code class="bash">groupadd mysql;
+useradd -s /sign/nologin -g mysql -M mysql  #-s /sign/nologin禁止其他所有的php，cookie。</code></pre>
+<h2 id="编译"><a href="#编译" class="headerlink" title="编译"></a>编译</h2><pre><code class="bash">./configure --prefix=/usr/local/mysql \
+--with-unix-socket-path=/usr/local/mysql/tmp/mysql.sock \
+--localstatedir=/usr/local/mysql/data \
+--enable-assembler \
+--with-mysqld-ldflags=-all-static \
+--with-client-ldflags=-all-static \
+--enable-thread-safe-client \
+--with-mysqld-user=mysql \
+--with-big-tables \
+--without-debug \
+--with-pthread;</code></pre>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><pre><code class="bash">make
+make install</code></pre>
+<h2 id="初始化数据库"><a href="#初始化数据库" class="headerlink" title="初始化数据库"></a>初始化数据库</h2><p>拷贝MySQL的配置文件到/etc目录下</p>
+<pre><code class="bash">cp support-files/my-huge.cnf /etc/my.cnf</code></pre>
+<p>创建数据文件夹</p>
+<pre><code class="bash">mkdir -p /usr/local/mysql/data</code></pre>
+<p>生成mysql.sock</p>
+<pre><code class="bash">/usr/local/mysql/bin/mysql_install_db --user=mysql</code></pre>
+<p>将软件的安装目录拥有者改为root用户</p>
+<pre><code class="bash">chown -R root /usr/local/mysql/</code></pre>
+<p>将存放数据库的目录拥有者改为mysql用户</p>
+<pre><code class="bash">chown -R mysql /usr/local/mysql/data</code></pre>
+<p>将软件的安装目录属组改为mysql组</p>
+<pre><code class="bash">chgrp -R mysql /usr/local/mysql/</code></pre>
+<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code class="bash">/usr/local/mysql/bin/mysqld_safe --user=mysql &amp;</code></pre>
+<h2 id="添加开机启动"><a href="#添加开机启动" class="headerlink" title="添加开机启动"></a>添加开机启动</h2><pre><code class="bash">vi /etc/rc.local</code></pre>
+<p>添加一行</p>
+<pre><code class="bash">/usr/local/mysql/bin/mysqld_safe --user=mysql &amp;</code></pre>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.154Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/mysql-install-and-configuration/&title=《Mysql安装及配置》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/mysql-install-and-configuration/&title=《Mysql安装及配置》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/mysql-install-and-configuration/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Mysql安装及配置》 — codante&url=http://codante.org/post/mysql-install-and-configuration/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/mysql-install-and-configuration/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+
+        
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/tar-command-not-fully-sum-up/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">tar命令不完全总结</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/some-practical-tips-on-apache/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">关于apache的一些实用技巧</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

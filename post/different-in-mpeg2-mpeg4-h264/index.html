@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>MPEG-2，MPEG-4，H.264 编码标准的区别 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">MPEG-2，MPEG-4，H.264 编码标准的区别</h1>
+<div class="post-meta">
+    
+
+    
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#宏块匹配像素精度">宏块匹配像素精度</a></li><li class="post-toc-level-0"><em>2</em><a href="#参考帧的数量">参考帧的数量</a></li><li class="post-toc-level-0"><em>3</em><a href="#滤波器的结构">滤波器的结构</a></li><li class="post-toc-level-0"><em>4</em><a href="#I帧的编码">I帧的编码</a></li></ol><ol><li class="post-toc-level-0"><em>5</em><a href="#匹配宏块大小的区别">匹配宏块大小的区别</a></li><li class="post-toc-level-0"><em>6</em><a href="#DCT变换的不同">DCT变换的不同</a></li><li class="post-toc-level-0"><em>7</em><a href="#量化之后的编码">量化之后的编码</a></li><li class="post-toc-level-0"><em>8</em><a href="#编码之后的结构">编码之后的结构</a></li></ol><ol><li class="post-toc-level-0"><em>9</em><a href="#量化参数的区别">量化参数的区别</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-different-in-mpeg2-mpeg4-h264"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <h2 id="宏块匹配像素精度"><a href="#宏块匹配像素精度" class="headerlink" title="宏块匹配像素精度"></a>宏块匹配像素精度</h2><ul>
+<li>MPEG2中，运动估计的精度是1/2的像素，通过线性插值实现（可能有简单修正）；</li>
+<li>H.264和MPEG4 都可以支持1/4像素的精度；</li>
+</ul>
+<h2 id="参考帧的数量"><a href="#参考帧的数量" class="headerlink" title="参考帧的数量"></a>参考帧的数量</h2><ul>
+<li>MPEG2，MPEG4的P帧只能有一帧参考帧，B帧可以有两帧参考帧；</li>
+<li>H.264可以最多有15帧参考帧，一般情况下选择3-5帧作为参考帧；</li>
+</ul>
+<h2 id="滤波器的结构"><a href="#滤波器的结构" class="headerlink" title="滤波器的结构"></a>滤波器的结构</h2><ul>
+<li>插值滤波器<ul>
+<li>MPEG4里面是简单的线性插值；</li>
+<li>H.264里面是5抽头的滤波器；</li>
+</ul>
+</li>
+<li>deblocking<ul>
+<li>MPEG2没有环内deblocking工具；</li>
+<li>MPEG4有deblocking工具，但是属于postprocessing;</li>
+<li>H.264有环内deblocking工具；</li>
+</ul>
+</li>
+</ul>
+<h2 id="I帧的编码"><a href="#I帧的编码" class="headerlink" title="I帧的编码"></a>I帧的编码</h2><ul>
+<li>MPEG2没有INTRA预测，但是有DC参数预测；</li>
+<li>MPEG4没有INTRA预测，支持DC预测，并且支持两个AC参数的预测；</li>
+<li>H.264支持INTRA预测，4*4共有9种模式；</li>
+</ul>
+<h2 id="匹配宏块大小的区别"><a href="#匹配宏块大小的区别" class="headerlink" title="匹配宏块大小的区别"></a>匹配宏块大小的区别</h2><ul>
+<li>MPEG2最小匹配块尺寸为8*8；</li>
+<li>MPEG4同样也为8*8；</li>
+<li>H.264最小可以到4*4尺寸；</li>
+</ul>
+<h2 id="DCT变换的不同"><a href="#DCT变换的不同" class="headerlink" title="DCT变换的不同"></a>DCT变换的不同</h2><ul>
+<li>MPEG系列为8*8的DCT变换，逆变换时会出现漂移现象；</li>
+<li>H.264为整数4*4的DCT变换，而且直流系数经过HADMARD变换之后做的DCT变换，整数DCT变换可以防止逆变换时出现漂移现象；</li>
+</ul>
+<h2 id="量化之后的编码"><a href="#量化之后的编码" class="headerlink" title="量化之后的编码"></a>量化之后的编码</h2><ul>
+<li>MPEG2/MPEG4则都是基于huffman，并且头部的语法相对比较简单，很少使用变长码；</li>
+<li>H.264提供基于上下文的CAVLC和CABAC；</li>
+</ul>
+<h2 id="编码之后的结构"><a href="#编码之后的结构" class="headerlink" title="编码之后的结构"></a>编码之后的结构</h2><ul>
+<li>MPEG2/MPEG4都是分层结构；</li>
+<li>H.264则是提供NAL单层结构，提供参数集合的形式；</li>
+</ul>
+<h2 id="量化参数的区别"><a href="#量化参数的区别" class="headerlink" title="量化参数的区别"></a>量化参数的区别</h2><ul>
+<li>MPEG4提供31个量化参数（量化模式：常量化，系统默认量化矩阵，自定义量化矩阵）；</li>
+<li>H.264提供51个量化参数（量化模式：常量化，量化矩阵，自定义有否还不确定）；</li>
+</ul>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.125Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/different-in-mpeg2-mpeg4-h264/&title=《MPEG-2，MPEG-4，H.264 编码标准的区别》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/different-in-mpeg2-mpeg4-h264/&title=《MPEG-2，MPEG-4，H.264 编码标准的区别》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/different-in-mpeg2-mpeg4-h264/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《MPEG-2，MPEG-4，H.264 编码标准的区别》 — codante&url=http://codante.org/post/different-in-mpeg2-mpeg4-h264/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/different-in-mpeg2-mpeg4-h264/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+
+        
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/excel-csv-serial-number/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">Excel CSV 解决自动科学技术法</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/determine-the-method-of-javascript-loaded/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">判断javascript加载完成的方法</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

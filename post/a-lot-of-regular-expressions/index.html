@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="正则">
+    
+    <title>常用的正则表达式 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">常用的正则表达式</h1>
+<div class="post-meta">
+    
+<div class="post-category-list flex-column">
+    <a class="post-category-link" href="/blog/">首页</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/">研发之路</a>
+</div>
+
+
+    
+<div class="post-tag-list flex-column">
+    <a class="post-tag-link" href="/blog/tag/正则/">正则</a>
+</div>
+
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#比较常用的">比较常用的</a></li><li class="post-toc-level-0"><em>2</em><a href="#匹配特定数字">匹配特定数字</a></li><li class="post-toc-level-0"><em>3</em><a href="#匹配特定字符串">匹配特定字符串</a></li><li class="post-toc-level-0"><em>4</em><a href="#表单验证">表单验证</a></li></ol><ol><li class="post-toc-level-0"><em>5</em><a href="#特定的字符">特定的字符</a></li><li class="post-toc-level-0"><em>6</em><a href="#应用">应用</a></li><li class="post-toc-level-1"><em>6.1</em><a href="#计算字符串的长度">计算字符串的长度</a></li><li class="post-toc-level-1"><em>6.2</em><a href="#javascript中的trim">javascript中的trim</a></li></ol><ol><li class="post-toc-level-1"><em>6.3</em><a href="#分解和转换IP地址">分解和转换IP地址</a></li><li class="post-toc-level-1"><em>6.4</em><a href="#从URL地址中提取文件名">从URL地址中提取文件名</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-a-lot-of-regular-expressions"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <h2 id="比较常用的"><a href="#比较常用的" class="headerlink" title="比较常用的"></a>比较常用的</h2><pre><code>/*匹配双字节字符(包括汉字在内)，可以用来计算字符串的长度（一个双字节字符长度计2，ASCII字符计1）*/
+[^x00-xff]
+
+/*匹配空白行的正则表达式，可以用来删除空白行*/
+ns*r
+
+/*匹配HTML标记的正则表达式，网上流传的版本太糟糕，这个也仅仅能匹配部分，对于复杂的嵌套标记依旧无能为力*/
+&lt;(S*?)[^&gt;]*&gt;.*?|&lt;.*? /&gt;
+
+/*匹配首尾空白字符的正则表达式，可以用来删除行首行尾的空白字符(包括空格、制表符、换页符等等)，非常有用的表达式*/
+^s*|s*$
+
+/*匹配Email地址的正则表达式，表单验证时很实用*/
+w+([-+.]w+)*@w+([-.]w+)*.w+([-.]w+)*
+
+/*匹配网址URL的正则表达式，网上流传的版本功能很有限，上面这个基本可以满足需求*/
+[a-zA-z]+://[^s]*
+
+/*匹配帐号是否合法(字母开头，允许5-16字节，允许字母数字下划线)，表单验证时很实用*/
+^[a-zA-Z][a-zA-Z0-9_]{4,15}$
+
+/*匹配国内电话号码，匹配形式如 0511-4405222 或 021-87888822*/
+d{3}-d{8}|d{4}-d{7}
+
+/*匹配腾讯QQ号，腾讯QQ号从10000开始*/
+[1-9][0-9]{4,}
+
+/*匹配中国邮政编码，中国邮政编码为6位数字*/
+[1-9]d{5}(?!d)
+
+/*匹配身份证，中国的身份证为15位或18位*/
+d{15}|d{18}
+
+/*匹配ip地址，提取ip地址时有用*/
+d+.d+.d+.d+</code></pre><h2 id="匹配特定数字"><a href="#匹配特定数字" class="headerlink" title="匹配特定数字"></a>匹配特定数字</h2><p>处理大量数据时有用，具体应用时注意修正</p>
+<pre><code>/*匹配正整数*/
+^[1-9]d*$
+
+/*匹配负整数*/
+^-[1-9]d*$
+
+/*匹配整数*/
+^-?[1-9]d*$
+
+/*匹配非负整数（正整数 + 0）*/
+^[1-9]d*|0$
+
+/*匹配非正整数（负整数 + 0）*/
+^-[1-9]d*|0$
+
+/*匹配正浮点数*/
+^[1-9]d*.d*|0.d*[1-9]d*$
+
+/*匹配负浮点数*/
+^-([1-9]d*.d*|0.d*[1-9]d*)$
+
+/*匹配浮点数*/
+^-?([1-9]d*.d*|0.d*[1-9]d*|0?.0+|0)$
+
+/*匹配非负浮点数（正浮点数 + 0）*/
+^[1-9]d*.d*|0.d*[1-9]d*|0?.0+|0$
+
+/*匹配非正浮点数（负浮点数 + 0）*/
+^(-([1-9]d*.d*|0.d*[1-9]d*))|0?.0+|0$</code></pre><h2 id="匹配特定字符串"><a href="#匹配特定字符串" class="headerlink" title="匹配特定字符串"></a>匹配特定字符串</h2><pre><code>/*匹配由26个英文字母组成的字符串*/
+^[A-Za-z]+$
+
+/*匹配由26个英文字母的大写组成的字符串*/
+^[A-Z]+$
+
+/*匹配由26个英文字母的小写组成的字符串*/
+^[a-z]+$
+
+/*匹配由数字和26个英文字母组成的字符串*/
+^[A-Za-z0-9]+$
+
+/*匹配由数字、26个英文字母或者下划线组成的字符串*/
+^w+$</code></pre><h2 id="表单验证"><a href="#表单验证" class="headerlink" title="表单验证"></a>表单验证</h2><p>在使用RegularExpressionValidator验证控件时的验证功能及其验证表达式介绍如下:</p>
+<pre><code>/*只能输入数字*/
+^[0-9]*$
+
+/*只能输入n位的数字*/
+^d{n}$
+
+/*只能输入至少n位数字*/
+^d{n,}$
+
+/*只能输入m-n位的数字*/
+^d{m,n}$
+
+/*只能输入零和非零开头的数字*/
+^(0|[1-9][0-9]*)$
+
+/*只能输入有两位小数的正实数*/
+^[0-9]+(.[0-9]{2})?$
+
+/*只能输入有1-3位小数的正实数*/
+^[0-9]+(.[0-9]{1,3})?$
+
+/*只能输入非零的正整数*/
+^+?[1-9][0-9]*$
+
+/*只能输入非零的负整数*/
+^-[1-9][0-9]*$
+
+/*只能输入长度为3的字符*/
+^.{3}$
+
+/*只能输入由26个英文字母组成的字符串*/
+^[A-Za-z]+$
+
+/*只能输入由26个大写英文字母组成的字符串*/
+^[A-Z]+$
+
+/*只能输入由26个小写英文字母组成的字符串*/
+^[a-z]+$
+
+/*只能输入由数字和26个英文字母组成的字符串*/
+^[A-Za-z0-9]+$
+
+/*只能输入由数字、26个英文字母或者下划线组成的字符串*/
+^w+$
+
+/*验证用户密码，正确格式为：以字母开头，长度在6-18之间， 只能包含字符、数字和下划线*/
+^[a-zA-Z]\w{5,17}$
+
+/*只能输入汉字*/
+^[u4e00-u9fa5],{0,}$
+
+/*验证Email地址*/
+^w+[-+.]w+)*@w+([-.]w+)*.w+([-.]w+)*$
+
+/*验证InternetURL*/
+^http://([w-]+.)+[w-]+(/[w-./?%&amp;=]*)?$
+
+/*验证电话号码，正确格式为：&quot;XXXX-XXXXXXX&quot;，&quot;XXXX-XXXXXXXX&quot;，&quot;XXX-XXXXXXX&quot;，&quot;XXX-XXXXXXXX&quot;，&quot;XXXXXXX&quot;，&quot;XXXXXXXX&quot;*/
+^((d{3,4})|d{3,4}-)?d{7,8}$
+
+/*验证身份证号（15位或18位数字）*/
+^d{15}|d{}18$
+
+/*验证一年的12个月，正确格式为&quot;01&quot;-&quot;09&quot;和&quot;1&quot;-&quot;12&quot;*/
+^(0?[1-9]|1[0-2])$
+
+/*验证一个月的31天，正确格式为：&quot;01&quot;-&quot;09&quot;和&quot;1&quot;-&quot;31&quot;*/
+^((0?[1-9])|((1|2)[0-9])|30|31)$</code></pre><h2 id="特定的字符"><a href="#特定的字符" class="headerlink" title="特定的字符"></a>特定的字符</h2><pre><code>/*匹配中文字符的正则表达式*/
+[u4e00-u9fa5]
+
+/*匹配双字节字符(包括汉字在内)*/
+[^x00-xff]
+
+/*匹配空行的正则表达式*/
+n[s| ]*r
+
+/*匹配HTML标记的正则表达式*/
+/&lt;(.*)&gt;.*|&lt;(.*) /&gt;/
+
+/*匹配首尾空格的正则表达式*/
+(^s*)|(s*$)
+
+/*匹配Email地址的正则表达式*/
+w+([-+.]w+)*@w+([-.]w+)*.w+([-.]w+)*
+
+/*匹配网址URL的正则表达式*/
+http://([w-]+.)+[w-]+(/[w- ./?%&amp;=]*)?</code></pre><h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="计算字符串的长度"><a href="#计算字符串的长度" class="headerlink" title="计算字符串的长度"></a>计算字符串的长度</h3><p>一个双字节字符长度计2，ASCII字符计1</p>
+<pre><code class="javascript">String.prototype.len=function(){return this.replace([^x00-xff]/g,&quot;aa&quot;).length;}</code></pre>
+<h3 id="javascript中的trim"><a href="#javascript中的trim" class="headerlink" title="javascript中的trim"></a>javascript中的trim</h3><p>javascript中没有像vbscript那样的trim函数，我们就可以利用这个表达式来实现</p>
+<pre><code class="javascript">String.prototype.trim = function(){return this.replace(/(^s*)|(s*$)/g, &quot;&quot;);}</code></pre>
+<h3 id="分解和转换IP地址"><a href="#分解和转换IP地址" class="headerlink" title="分解和转换IP地址"></a>分解和转换IP地址</h3><pre><code class="javascript">/*IP地址转换成对应数值*/
+function IP2V(ip){
+    var re=/(d+).(d+).(d+).(d+)/g //匹配IP地址的正则表达式
+    if(re.test(ip)){
+        return RegExp.$1*Math.pow(255,3))+RegExp.$2*Math.pow(255,2))+RegExp.$3*255+RegExp.$4*1;
+    } else {
+        throw new Error(&quot;Not a valid IP address!&quot;);
+    }
+}</code></pre>
+<h3 id="从URL地址中提取文件名"><a href="#从URL地址中提取文件名" class="headerlink" title="从URL地址中提取文件名"></a>从URL地址中提取文件名</h3><p>应用于javascript程序</p>
+<pre><code class="javascript">s=&quot;http://www.9499.net/page1.htm&quot;;
+s=s.replace(/(.*/){0,}([^.]+).*/ig,&quot;$2&quot;) ;  //Page1.htm</code></pre>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.109Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/a-lot-of-regular-expressions/&title=《常用的正则表达式》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/a-lot-of-regular-expressions/&title=《常用的正则表达式》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/a-lot-of-regular-expressions/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《常用的正则表达式》 — codante&url=http://codante.org/post/a-lot-of-regular-expressions/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/a-lot-of-regular-expressions/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+<div class="post-category-list flex-column">
+    <a class="post-category-link" href="/blog/">首页</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/">研发之路</a>
+</div>
+
+
+        
+<div class="post-tag-list flex-column">
+    <a class="post-tag-link" href="/blog/tag/正则/">正则</a>
+</div>
+
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/some-practical-tips-on-apache/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">关于apache的一些实用技巧</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/less-commonly-used-in-php/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">PHP中不太常用的方法</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

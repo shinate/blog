@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="linux,nginx,lua">
+    
+    <title>在nginx中使用lua-nginx-module | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">在nginx中使用lua-nginx-module</h1>
+<div class="post-meta">
+    
+<div class="post-category-list flex-column">
+    <a class="post-category-link" href="/blog/">首页</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/">研发之路</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/服务器/">服务器</a>
+</div>
+
+
+    
+<div class="post-tag-list flex-column">
+    <a class="post-tag-link" href="/blog/tag/linux/">linux</a><a class="post-tag-link" href="/blog/tag/lua/">lua</a><a class="post-tag-link" href="/blog/tag/nginx/">nginx</a>
+</div>
+
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#工作顺序">工作顺序</a></li><li class="post-toc-level-0"><em>2</em><a href="#基本知识点">基本知识点</a></li><li class="post-toc-level-0"><em>3</em><a href="#ngxin-配置">ngxin 配置</a></li><li class="post-toc-level-0"><em>4</em><a href="#请求预处理">请求预处理</a></li></ol><ol><li class="post-toc-level-0"><em>5</em><a href="#响应处理（过滤器）">响应处理（过滤器）</a></li><li class="post-toc-level-1"><em>5.1</em><a href="#头处理">头处理</a></li><li class="post-toc-level-1"><em>5.2</em><a href="#内容处理">内容处理</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-nginx-lua"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <h2 id="工作顺序"><a href="#工作顺序" class="headerlink" title="工作顺序"></a>工作顺序</h2><p><img src="http://static.0.codante.org/d/a/da95f6c82ae4ec3f5666fd78b03f8f326d9e7337.png" alt></p>
+<h2 id="基本知识点"><a href="#基本知识点" class="headerlink" title="基本知识点"></a>基本知识点</h2><pre><code class="lua">ngx.say() -- 直接输出到响应response
+ngx.log() -- 打印到日志
+
+ngx.var.* -- 指向到nginx种的变量(以&quot;$&quot;为首的全部变量皆可调用或修改)，在lua里不需要加&quot;$&quot;</code></pre>
+<p><code>content_by_lua[_file|_block]</code> 与 proxy_pass 只能同时一者生效，所以如果预处理后仍要发往其他backend需要使用 <code>access_by_lua[_file|_block]</code></p>
+<h2 id="ngxin-配置"><a href="#ngxin-配置" class="headerlink" title="ngxin 配置"></a>ngxin 配置</h2><pre><code>server {
+  location /example {
+    set $methoded_url &#39;&#39;;
+    access_by_lua_file &#39;path to lua file&#39;;
+    #echo $methoded_url;
+
+    proxy_buffering off;
+    proxy_set_header X-Forwarded-For $remote_addr;
+    proxy_set_header Host $http_host;
+    proxy_http_version 1.1;
+    proxy_pass http://127.0.0.1:8080/$methoded_url;
+
+    header_filter_by_lua_file &#39;path to lua file&#39;;
+    body_filter_by_lua_file &#39;path to lua file&#39;;
+  }
+}</code></pre><h2 id="请求预处理"><a href="#请求预处理" class="headerlink" title="请求预处理"></a>请求预处理</h2><p><code>access_by_lua[_file|_block]</code></p>
+<pre><code class="lua">ngx.req.read_body()
+
+-- 获取POST参数
+local args, err = ngx.req.get_post_args()
+-- 清空body，清理原始提交中的所有post
+--ngx.req.set_body_data(&#39;&#39;)
+ngx.req.discard_body()
+if err == &quot;truncated&quot; then
+    -- one can choose to ignore or reject the current request here
+    ngx.status = ngx.HTTP_FORBIDDEN
+    ngx.exit(ngx.HTTP_FORBIDDEN)
+end
+
+if not args then
+    ngx.status = ngx.HTTP_FORBIDDEN
+    ngx.exit(ngx.HTTP_FORBIDDEN)
+end
+
+--for key, val in pairs(args) do
+--    if type(val) == &quot;table&quot; then
+--        ngx.say(key, &quot;: &quot;, table.concat(val, &quot;, &quot;))
+--    else
+--        ngx.say(key, &quot;: &quot;, val)
+--    end
+--end
+
+-- 获取参数
+local method = nil
+local paramStr = &quot;&quot;
+local ft = 0
+
+-- 将post参数连入get
+local function P(k, v)
+    if ft == 0 then
+        paramStr = paramStr .. &#39;?&#39;
+    else
+        paramStr = paramStr .. &#39;&amp;&#39;
+    end
+    paramStr = paramStr .. k .. &#39;=&#39; .. v
+    ft = ft + 1
+end
+
+-- 除了method，其他的参数原样抛POST
+for key, val in pairs(args) do
+    if key == &#39;method&#39; then
+        method = val
+        --else
+        ----if val ~= nil and val ~= &#39;&#39; then
+        ----    val = util.url_encode(val)
+        ----end
+        --if key ~= &#39;timestamp&#39; then
+        --    P(key, val)
+        --end
+    end
+end
+
+-- 设定nginx中的 $methoded_url
+ngx.var.methoded_url = method .. paramStr
+
+-- 如果外部使用proxy_pass，原始的post依然会带过去，除非这里做body的清空</code></pre>
+<h2 id="响应处理（过滤器）"><a href="#响应处理（过滤器）" class="headerlink" title="响应处理（过滤器）"></a>响应处理（过滤器）</h2><h3 id="头处理"><a href="#头处理" class="headerlink" title="头处理"></a>头处理</h3><p><code>header_filter_by_lua[_file|_block]</code></p>
+<pre><code class="lua">ngx.header[&#39;content-length&#39;] = nil
+ngx.header[&quot;Content-Type&quot;] = &quot;application/json&quot;</code></pre>
+<h3 id="内容处理"><a href="#内容处理" class="headerlink" title="内容处理"></a>内容处理</h3><p><code>body_filter_by_lua[_file|_block]</code></p>
+<pre><code class="lua">local cjson = require(&quot;cjson&quot;)
+
+-- 获取相应状态，来自proxy_pass同样有效
+local status = ngx.status
+local chunk, eof = ngx.arg[1], ngx.arg[2]
+chunk = chunk or &#39;&#39;
+
+local function res_json(errCode, errMsg)
+    local res = {}
+    res[&quot;success&quot;] = false
+    res[&quot;errCode&quot;] = errCode
+    res[&quot;errMsg&quot;] = errMsg
+    return cjson.encode(res)
+end
+
+if status ~= 200 then
+    -- 只有在遇到末尾时才输出
+    if eof then
+        ngx.arg[1] = res_json(20, &#39;接口请求失败:&#39; .. chunk)
+    else
+        -- ngx.ctx.buffered = nil
+        ngx.arg[1] = nil -- 这里是为了将原本的输出不显示
+    end
+end
+
+ngx.status = ngx.OK</code></pre>
+<p><strong>修改 <code>ngx.arg[1]</code> 会改变输出内容，但经常出现输出两次的情况，是因为在输出流的末尾会有一个空的输出，可用 <code>ngx.arg[2]</code> 存在的情况进行判断。</strong></p>
+<p><strong>输出的时候 如果需要改变状态码，如，直接退出 <code>ngx.exit(ngx.OK)</code> 必须同时修改 <code>ngx.status</code></strong></p>
+<p><a href>https://github.com/openresty/openresty</a><br><a href>https://github.com/openresty/lua-nginx-module</a></p>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-26T08:15:23.716Z">2020.04.26 16:15:23</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/nginx-lua/&title=《在nginx中使用lua-nginx-module》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/nginx-lua/&title=《在nginx中使用lua-nginx-module》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/nginx-lua/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《在nginx中使用lua-nginx-module》 — codante&url=http://codante.org/post/nginx-lua/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/nginx-lua/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+<div class="post-category-list flex-column">
+    <a class="post-category-link" href="/blog/">首页</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/">研发之路</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/服务器/">服务器</a>
+</div>
+
+
+        
+<div class="post-tag-list flex-column">
+    <a class="post-tag-link" href="/blog/tag/linux/">linux</a><a class="post-tag-link" href="/blog/tag/lua/">lua</a><a class="post-tag-link" href="/blog/tag/nginx/">nginx</a>
+</div>
+
+    </div>
+    
+<nav class="post-nav">
+    
+    
+    <div class="next">
+        <a href="/blog/post/zend-guard-installation/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">Zend Grard 安装及配置</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

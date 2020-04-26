@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>PHP中header的使用范例 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">PHP中header的使用范例</h1>
+<div class="post-meta">
+    
+
+    
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#成功">成功</a></li><li class="post-toc-level-0"><em>2</em><a href="#页面未找到">页面未找到</a></li><li class="post-toc-level-0"><em>3</em><a href="#拒绝访问">拒绝访问</a></li><li class="post-toc-level-0"><em>4</em><a href="#永久转向">永久转向</a></li><li class="post-toc-level-0"><em>5</em><a href="#服务器内部错误">服务器内部错误</a></li></ol><ol><li class="post-toc-level-0"><em>6</em><a href="#页面跳转">页面跳转</a></li><li class="post-toc-level-0"><em>7</em><a href="#一定时间后重定向">一定时间后重定向</a></li><li class="post-toc-level-1"><em>7.1</em><a href="#通过html实现">通过html实现</a></li><li class="post-toc-level-0"><em>8</em><a href="#重置技术支持信息">重置技术支持信息</a></li><li class="post-toc-level-0"><em>9</em><a href="#设定语言">设定语言</a></li></ol><ol><li class="post-toc-level-0"><em>10</em><a href="#最后编辑时间">最后编辑时间</a></li><li class="post-toc-level-0"><em>11</em><a href="#已缓存的">已缓存的</a></li><li class="post-toc-level-0"><em>12</em><a href="#设定内容长度">设定内容长度</a></li><li class="post-toc-level-0"><em>13</em><a href="#用于下载的文件头">用于下载的文件头</a></li><li class="post-toc-level-0"><em>14</em><a href="#不使用缓存">不使用缓存</a></li></ol><ol><li class="post-toc-level-0"><em>15</em><a href="#设置页面类型">设置页面类型</a></li><li class="post-toc-level-0"><em>16</em><a href="#弹出一个消息框">弹出一个消息框</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-php-header-example"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <h2 id="成功"><a href="#成功" class="headerlink" title="成功"></a>成功</h2><p>// See related links for more status codes  </p>
+<pre><code class="php">header(&#39;HTTP/1.1 200 OK&#39;);</code></pre>
+<h2 id="页面未找到"><a href="#页面未找到" class="headerlink" title="页面未找到"></a>页面未找到</h2><p>Page was not found<br>//Use this header instruction to fix 404 headers<br>//produced by url rewriting…</p>
+<pre><code class="php">header(&#39;HTTP/1.1 404 Not Found&#39;);</code></pre>
+<h2 id="拒绝访问"><a href="#拒绝访问" class="headerlink" title="拒绝访问"></a>拒绝访问</h2><p>Access forbidden</p>
+<pre><code class="php">header(&#39;HTTP/1.1 403 Forbidden&#39;);</code></pre>
+<h2 id="永久转向"><a href="#永久转向" class="headerlink" title="永久转向"></a>永久转向</h2><p>Moved Permanently<br>The page moved permanently should be used for<br>all redrictions, because search engines know<br>what’s going on and can easily update their urls.</p>
+<pre><code class="php">header(&#39;HTTP/1.1 301 Moved Permanently&#39;);</code></pre>
+<h2 id="服务器内部错误"><a href="#服务器内部错误" class="headerlink" title="服务器内部错误"></a>服务器内部错误</h2><p>Server error</p>
+<pre><code class="php">header(&#39;HTTP/1.1 500 Internal Server Error&#39;);</code></pre>
+<h2 id="页面跳转"><a href="#页面跳转" class="headerlink" title="页面跳转"></a>页面跳转</h2><p>Redirect to a new location</p>
+<pre><code class="php">header(&#39;Location: http://www.example.org/&#39;);</code></pre>
+<h2 id="一定时间后重定向"><a href="#一定时间后重定向" class="headerlink" title="一定时间后重定向"></a>一定时间后重定向</h2><p>Redriect with a delay</p>
+<pre><code class="php">header(&#39;Refresh: 10; url=http://www.example.org/&#39;);
+print &#39;You will be redirected in 10 seconds&#39;;</code></pre>
+<p>当然,还可以这样:</p>
+<h3 id="通过html实现"><a href="#通过html实现" class="headerlink" title="通过html实现"></a>通过html实现</h3><pre><code class="php">&amp;lt;meta http-equiv=&quot;refresh&quot; content=&quot;10;http://www.example.org/ /&amp;gt;</code></pre>
+<h2 id="重置技术支持信息"><a href="#重置技术支持信息" class="headerlink" title="重置技术支持信息"></a>重置技术支持信息</h2><p>override X-Powered-By value</p>
+<pre><code class="php">header(&#39;X-Powered-By: PHP/4.4.0&#39;);
+header(&#39;X-Powered-By: Brain/0.6b&#39;);</code></pre>
+<h2 id="设定语言"><a href="#设定语言" class="headerlink" title="设定语言"></a>设定语言</h2><p>content language (en = English)</p>
+<pre><code class="php">header(&#39;Content-language: en&#39;);</code></pre>
+<h2 id="最后编辑时间"><a href="#最后编辑时间" class="headerlink" title="最后编辑时间"></a>最后编辑时间</h2><p>last modified<br>对缓存页面有很好的帮助</p>
+<pre><code class="php">$time = time() - 60; // or filemtime($fn), etc
+header(&#39;Last-Modified: &#39;.gmdate(&#39;D, d M Y H:i:s&#39;, $time).&#39; GMT&#39;);</code></pre>
+<h2 id="已缓存的"><a href="#已缓存的" class="headerlink" title="已缓存的"></a>已缓存的</h2><p>Not Modified<br>// header for telling the browser that the content<br>// did not get changed</p>
+<pre><code class="php">header(&#39;HTTP/1.1 304 Not Modified&#39;);</code></pre>
+<h2 id="设定内容长度"><a href="#设定内容长度" class="headerlink" title="设定内容长度"></a>设定内容长度</h2><p>set content length (good for caching)</p>
+<pre><code class="php">header(&#39;Content-Length: 1234&#39;);</code></pre>
+<h2 id="用于下载的文件头"><a href="#用于下载的文件头" class="headerlink" title="用于下载的文件头"></a>用于下载的文件头</h2><p>Headers for an download:</p>
+<pre><code class="php">header(&#39;Content-Type: application/octet-stream&#39;);
+header(&#39;Content-Disposition: attachment; filename=&quot;example.zip&quot;&#39;);
+header(&#39;Content-Transfer-Encoding: binary&#39;);</code></pre>
+<p>读取文件内容:</p>
+<pre><code class="php">readfile(&#39;example.zip&#39;);</code></pre>
+<h2 id="不使用缓存"><a href="#不使用缓存" class="headerlink" title="不使用缓存"></a>不使用缓存</h2><p>Disable caching of the current document</p>
+<pre><code class="php">header(&#39;Cache-Control: no-cache, no-store, max-age=0, must-revalidate&#39;);
+header(&#39;Expires: Mon, 26 Jul 1997 05:00:00 GMT&#39;); // Date in the past
+header(&#39;Pragma: no-cache&#39;);</code></pre>
+<h2 id="设置页面类型"><a href="#设置页面类型" class="headerlink" title="设置页面类型"></a>设置页面类型</h2><p>set content type</p>
+<pre><code class="php">header(&#39;Content-Type: text/html; charset=iso-8859-1&#39;);
+header(&#39;Content-Type: text/html; charset=utf-8&#39;);
+header(&#39;Content-Type: text/plain&#39;); // plain text file
+header(&#39;Content-Type: image/jpeg&#39;); // JPG picture
+header(&#39;Content-Type: application/zip&#39;); // ZIP file
+header(&#39;Content-Type: application/pdf&#39;); // PDF file
+header(&#39;Content-Type: audio/mpeg&#39;); // Audio MPEG (MP3,...) file
+header(&#39;Content-Type: application/x-shockwave-flash&#39;); // Flash animation</code></pre>
+<h2 id="弹出一个消息框"><a href="#弹出一个消息框" class="headerlink" title="弹出一个消息框"></a>弹出一个消息框</h2><p>show sign in box</p>
+<pre><code class="php">header(&#39;HTTP/1.1 401 Unauthorized&#39;);
+header(&#39;WWW-Authenticate: Basic realm=&quot;Top Secret&quot;&#39;);
+print &#39;Text that will be displayed if the user hits cancel or &#39;;
+print &#39;enters wrong login data&#39;;</code></pre>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.159Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/php-header-example/&title=《PHP中header的使用范例》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/php-header-example/&title=《PHP中header的使用范例》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/php-header-example/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PHP中header的使用范例》 — codante&url=http://codante.org/post/php-header-example/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/php-header-example/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+
+        
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/svn-install-and-configuration/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">SVN安装及配置流程</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/mysql-get-password-back/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">Mysql数据库丢失root密码恢复</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

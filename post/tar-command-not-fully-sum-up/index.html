@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>tar命令不完全总结 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">tar命令不完全总结</h1>
+<div class="post-meta">
+    
+
+    
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#常用选项">常用选项</a></li><li class="post-toc-level-0"><em>2</em><a href="#举例">举例</a></li><li class="post-toc-level-1"><em>2.1</em><a href="#方法1-tar-gz">方法1 (tar.gz)</a></li><li class="post-toc-level-1"><em>2.2</em><a href="#方法2-tar-bz">方法2 (tar.bz)</a></li></ol><ol><li class="post-toc-level-1"><em>2.3</em><a href="#错误的例子">错误的例子</a></li><li class="post-toc-level-1"><em>2.4</em><a href="#指定解压路径-参数-C">指定解压路径(参数 -C)</a></li><li class="post-toc-level-1"><em>2.5</em><a href="#排除式打包-参数-X">排除式打包(参数 -X)</a></li><li class="post-toc-level-2"><em>2.5.1</em><a href="#测试准备">测试准备</a></li></ol><ol><li class="post-toc-level-2"><em>2.5.2</em><a href="#测试开始">测试开始</a></li><li class="post-toc-level-1"><em>2.6</em><a href="#增量备份-参数-N">增量备份(参数 -N)</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-tar-command-not-fully-sum-up"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <p>感谢老男孩赐予的知识。 老男孩（QQ:49000448， mail:<a href="mailto:49000448@qq.com" target="_blank" rel="noopener">49000448@qq.com</a>）</p>
+<h2 id="常用选项"><a href="#常用选项" class="headerlink" title="常用选项"></a>常用选项</h2><pre><code class="bash">-z, --gzip, --ungzip
+#filter the archive through gzip||调用gzip来压缩归档文件，与-x联用时调用gzip完成解压缩
+-c, --create
+#create a new archive ||建立新的归档文件
+-v, --verbose
+#verbosely list files processed||处理过程中输出相关信息
+-f, --file [HOSTNAME:]F
+#use archive file or device F (default &quot;-&quot;, meaning stdin/stdout)||对普通文件操作
+-x, --extract, --get
+#extract files from an archive||从归档文件中解出文件
+-j, --bzip2
+#filter archive through bzip2, use to decompress .bz2 files||用GNU的bzip2压缩文件或解压
+-C, --directory DIR
+#change to directory DIR
+--exclude PATTERN
+#exclude files based upon PATTERN
+-X, --exclude-from FILE
+#exclude files listed in FILE
+-Z, --compress, --uncompress
+#filter the archive through compress||调用compress来压缩归档文件，与-x联用时调用compress完成解压缩
+-N, --after-date DATE, --newer DATE
+#only store files newer than DATE</code></pre>
+<h2 id="举例"><a href="#举例" class="headerlink" title="举例"></a>举例</h2><p>不同方法对应不同的解压方式</p>
+<h3 id="方法1-tar-gz"><a href="#方法1-tar-gz" class="headerlink" title="方法1 (tar.gz)"></a>方法1 (tar.gz)</h3><pre><code class="bash">#打包
+tar zcvf test.tar.gz ./test
+#解压
+tar zxvf test.tar.gz</code></pre>
+<h3 id="方法2-tar-bz"><a href="#方法2-tar-bz" class="headerlink" title="方法2 (tar.bz)"></a>方法2 (tar.bz)</h3><pre><code class="bash">#打包
+tar jcvf test.tar.bz ./test
+#解压
+tar jxvf test.tar.bz</code></pre>
+<h3 id="错误的例子"><a href="#错误的例子" class="headerlink" title="错误的例子"></a>错误的例子</h3><p>命令必须对应相应的包，否则无法解压。</p>
+<pre><code class="bash">tar zxvf test.tar.bz</code></pre>
+<p>报错：<br>gzip: stdin: not in gzip format<br>tar: Child returned status 1<br>tar: Error exit delayed from previous error</p>
+<pre><code class="bash">tar jxvf test.tar.gz</code></pre>
+<p>报错：<br>bzip2: (stdin) is not a bzip2 file.<br>tar: Child returned status 2<br>tar: Error exit delayed from previous errors</p>
+<h3 id="指定解压路径-参数-C"><a href="#指定解压路径-参数-C" class="headerlink" title="指定解压路径(参数 -C)"></a>指定解压路径(参数 -C)</h3><pre><code class="bash">tar jxvf test.tar.bz -C /home/rhy/
+tar zxvf test.tar.gz -C /home/rhy/</code></pre>
+<h3 id="排除式打包-参数-X"><a href="#排除式打包-参数-X" class="headerlink" title="排除式打包(参数 -X)"></a>排除式打包(参数 -X)</h3><pre><code class="bash">#man tar:
+--exclude PATTERN
+#exclude files based upon PATTERN
+-X, --exclude-from FILE
+#exclude files listed in FILE</code></pre>
+<h4 id="测试准备"><a href="#测试准备" class="headerlink" title="测试准备"></a>测试准备</h4><pre><code class="bash">cd /
+mkdir -p /test/baoliu
+mkdir -p /test/paichu
+touch exceptlist;echo &quot;paichu&quot;&amp;gt;exceptlist</code></pre>
+<h4 id="测试开始"><a href="#测试开始" class="headerlink" title="测试开始"></a>测试开始</h4><p><strong>–exclude</strong> 参数</p>
+<pre><code class="bash">cd /
+tar zcvf  paichu.tar.gz ./test --exclude=test/paichu
+./test/
+./test/baoliu/</code></pre>
+<p><strong>-X</strong> 参数</p>
+<pre><code class="bash">cd /
+cat exceptlist
+paichu
+tar zcvfX paichuX.tar.gz /exceptlist ./test
+./test/
+./test/baoliu/</code></pre>
+<h3 id="增量备份-参数-N"><a href="#增量备份-参数-N" class="headerlink" title="增量备份(参数 -N)"></a>增量备份(参数 -N)</h3><pre><code class="bash">#自00点以来的新文件。
+tar -N $(date -d yesterday +%F) zcvf a.tar.gz ./a
+#自2009-09-26以来的新文件
+tar -N 2009-09-26 zcvf a.tar.gz ./a</code></pre>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.170Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/tar-command-not-fully-sum-up/&title=《tar命令不完全总结》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/tar-command-not-fully-sum-up/&title=《tar命令不完全总结》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/tar-command-not-fully-sum-up/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《tar命令不完全总结》 — codante&url=http://codante.org/post/tar-command-not-fully-sum-up/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/tar-command-not-fully-sum-up/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+
+        
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/linux-command-find-explained/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">Linux find命令详解</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/mysql-install-and-configuration/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">Mysql安装及配置</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

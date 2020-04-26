@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>Nginx安装及配置 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">Nginx安装及配置</h1>
+<div class="post-meta">
+    
+
+    
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#configure-所有支持的选项">configure 所有支持的选项</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-nginx-install-and-configuration"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <p>configure 脚本确定系统所具有一些特性，特别是 nginx 用来处理连接的方法。然后，它创建 Makefile 文件。<br>在nginx安装完成后有一些配置信息是无法更改的，所以在创建makefile时需要对一些参数进行修改。在下面列举了所有的configure所支持的参数。</p>
+<h2 id="configure-所有支持的选项"><a href="#configure-所有支持的选项" class="headerlink" title="configure 所有支持的选项"></a>configure 所有支持的选项</h2><ul>
+<li><strong>–prefix=</strong>&lt;path&gt; - Nginx安装路径。如果没有指定，默认为 /usr/local/nginx。</li>
+<li><strong>–sbin-path=</strong>&lt;path&gt; - Nginx可执行文件安装路径。只能安装时指定，如果没有指定，默认为&lt;prefix&gt;/sbin/nginx。</li>
+<li><strong>–conf-path=</strong>&lt;path&gt; - 在没有给定-c选项下默认的nginx.conf的路径。如果没有指定，默认为&lt;prefix&gt;/conf/nginx.conf。</li>
+<li><strong>–pid-path=</strong>&lt;path&gt; - 在nginx.conf中没有指定pid指令的情况下，默认的nginx.pid的路径。如果没有指定，默认为 &lt;prefix&gt;/logs/nginx.pid。</li>
+<li><strong>–lock-path=</strong>&lt;path&gt; - nginx.lock文件的路径。</li>
+<li><strong>–error-log-path=</strong>&lt;path&gt; - 在nginx.conf中没有指定error_log指令的情况下，默认的错误日志的路径。如果没有指定，默认为 &lt;prefix&gt;/logs/error.log。</li>
+<li><strong>–http-log-path=</strong>&lt;path&gt; - 在nginx.conf中没有指定access_log指令的情况下，默认的访问日志的路径。如果没有指定，默认为 &lt;prefix&gt;/logs/access.log。</li>
+<li><strong>–user=</strong>&lt;user&gt; - 在nginx.conf中没有指定user指令的情况下，默认的nginx使用的用户。如果没有指定，默认为 nobody。</li>
+<li><strong>–group=</strong>&lt;group&gt; - 在nginx.conf中没有指定user指令的情况下，默认的nginx使用的组。如果没有指定，默认为 nobody。</li>
+<li><strong>–builddir=DIR</strong> - 指定编译的目录</li>
+<li><strong>–with-rtsig_module</strong> - 启用 rtsig 模块</li>
+<li><strong>–with-select_module –without-select_module</strong> - Whether or not to enable the select module. This module is enabled by default if a more suitable method such as kqueue, epoll, rtsig or /dev/poll is not discovered by configure. 允许或不允许开启SELECT模式，如果 configure 没有找到更合适的模式，比如：kqueue(sun os),epoll (linux kenel 2.6+), rtsig(实时信号)或者/dev/poll(一种类似select的模式，底层实现与SELECT基本相 同，都是采用轮训方法) SELECT模式将是默认安装模式</li>
+<li><strong>–with-poll_module –without-poll_module</strong> - Whether or not to enable the poll module. This module is enabled by default if a more suitable method such as kqueue, epoll, rtsig or /dev/poll is not discovered by configure.</li>
+<li><strong>–with-http_ssl_module</strong> - Enable ngx_http_ssl_module. Enables SSL support and the ability to handle HTTPS requests. Requires OpenSSL. On Debian, this is libssl-dev. //开启HTTP SSL模块，使NGINX可以支持HTTPS请求。这个模块需要已经安装了OPENSSL，在DEBIAN上是libssl-dev</li>
+<li><strong>–with-http_realip_module</strong> - 启用 ngx_http_realip_module</li>
+<li><strong>–with-http_addition_module</strong> - 启用 ngx_http_addition_module</li>
+<li><strong>–with-http_sub_module</strong> - 启用 ngx_http_sub_module</li>
+<li><strong>–with-http_dav_module</strong> - 启用 ngx_http_dav_module</li>
+<li><strong>–with-http_flv_module</strong> - 启用 ngx_http_flv_module</li>
+<li><strong>–with-http_stub_status_module</strong> - 启用 “server status” 页</li>
+<li><strong>–without-http_charset_module</strong> - 禁用 ngx_http_charset_module</li>
+<li><strong>–without-http_gzip_module</strong> - 禁用 ngx_http_gzip_module. 如果启用，需要 zlib 。</li>
+<li><strong>–without-http_ssi_module</strong> - 禁用 ngx_http_ssi_module</li>
+<li><strong>–without-http_userid_module</strong> - 禁用 ngx_http_userid_module</li>
+<li><strong>–without-http_access_module</strong> - 禁用 ngx_http_access_module</li>
+<li><strong>–without-http_auth_basic_module</strong> - 禁用 ngx_http_auth_basic_module</li>
+<li><strong>–without-http_autoindex_module</strong> - 禁用 ngx_http_autoindex_module</li>
+<li><strong>–without-http_geo_module</strong> - 禁用 ngx_http_geo_module</li>
+<li><strong>–without-http_map_module</strong> - 禁用 ngx_http_map_module</li>
+<li><strong>–without-http_referer_module</strong> - 禁用 ngx_http_referer_module</li>
+<li><strong>–without-http_rewrite_module</strong> - 禁用 ngx_http_rewrite_module. 如果启用需要 PCRE 。</li>
+<li><strong>–without-http_proxy_module</strong> - 禁用 ngx_http_proxy_module</li>
+<li><strong>–without-http_fastcgi_module</strong> - 禁用 ngx_http_fastcgi_module</li>
+<li><strong>–without-http_memcached_module</strong> - 禁用 ngx_http_memcached_module</li>
+<li><strong>–without-http_limit_zone_module</strong> - 禁用 ngx_http_limit_zone_module</li>
+<li><strong>–without-http_empty_gif_module</strong> - 禁用 ngx_http_empty_gif_module</li>
+<li><strong>–without-http_browser_module</strong> - 禁用 ngx_http_browser_module</li>
+<li><strong>–without-http_upstream_ip_hash_module</strong> - 禁用 ngx_http_upstream_ip_hash_module</li>
+<li><strong>–with-http_perl_module</strong> - 启用 ngx_http_perl_module</li>
+<li><strong>–with-perl_modules_path=PATH</strong> - 指定 perl 模块的路径</li>
+<li><strong>–with-perl=PATH</strong> - 指定 perl 执行文件的路径</li>
+<li><strong>–http-log-path=PATH</strong> - Set path to the http access log</li>
+<li><strong>–http-client-body-temp-path=PATH</strong> - Set path to the http client request body temporary files</li>
+<li><strong>–http-proxy-temp-path=PATH</strong> - Set path to the http proxy temporary files</li>
+<li><strong>–http-fastcgi-temp-path=PATH</strong> - Set path to the http fastcgi temporary files</li>
+<li><strong>–without-http</strong> - 禁用 HTTP server</li>
+<li><strong>–with-mail</strong> - 启用 IMAP4/POP3/SMTP 代理模块</li>
+<li><strong>–with-mail_ssl_module</strong> - 启用 ngx_mail_ssl_module</li>
+<li><strong>–with-cc=PATH</strong> - 指定 C 编译器的路径</li>
+<li><strong>–with-cpp=PATH</strong> - 指定 C 预处理器的路径</li>
+<li><strong>–with-cc-opt=OPTIONS</strong> - Additional parameters which will be added to the variable CFLAGS. With the use of the system library PCRE in FreeBSD, it is necessary to indicate –with-cc-opt=”-I /usr/local/include”. If we are using select() and it is necessary to increase the number of file descriptors, then this also can be assigned here: –with-cc-opt=”-D FD_SETSIZE=2048”.</li>
+<li><strong>–with-ld-opt=OPTIONS</strong> - Additional parameters passed to the linker. With the use of the system library PCRE in FreeBSD, it is necessary to indicate –with-ld-opt=”-L /usr/local/lib”.</li>
+<li><strong>–with-cpu-opt=CPU</strong> - 为特定的 CPU 编译，有效的值包括：pentium, pentiumpro, pentium3, pentium4, athlon, opteron, amd64, sparc32, sparc64, ppc64</li>
+<li><strong>–without-pcre</strong> - 禁止 PCRE 库的使用。同时也会禁止 HTTP rewrite 模块。在 “location” 配置指令中的正则表达式也需要 PCRE 。</li>
+<li><strong>–with-pcre=DIR</strong> - 指定 PCRE 库的源代码的路径。</li>
+<li><strong>–with-pcre-opt=OPTIONS</strong> - Set additional options for PCRE building.</li>
+<li><strong>–with-md5=DIR</strong> - Set path to md5 library sources.</li>
+<li><strong>–with-md5-opt=OPTIONS</strong> - Set additional options for md5 building.</li>
+<li><strong>–with-md5-asm</strong> - Use md5 assembler sources.</li>
+<li><strong>–with-sha1=DIR</strong> - Set path to sha1 library sources.</li>
+<li><strong>–with-sha1-opt=OPTIONS</strong> - Set additional options for sha1 building.</li>
+<li><strong>–with-sha1-asm</strong> - Use sha1 assembler sources.</li>
+<li><strong>–with-zlib=DIR</strong> - Set path to zlib library sources.</li>
+<li><strong>–with-zlib-opt=OPTIONS</strong> - Set additional options for zlib building.</li>
+<li><strong>–with-zlib-asm=CPU</strong> - Use zlib assembler sources optimized for specified CPU, valid values are: pentium, pentiumpro</li>
+<li><strong>–with-openssl=DIR</strong> - Set path to OpenSSL library sources</li>
+<li><strong>–with-openssl-opt=OPTIONS</strong> - Set additional options for OpenSSL building</li>
+<li><strong>–with-debug</strong> - 启用调试日志</li>
+<li><strong>–add-module=PATH</strong> - 在指定的目录中查找并添加第三方模块</li>
+</ul>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.155Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/nginx-install-and-configuration/&title=《Nginx安装及配置》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/nginx-install-and-configuration/&title=《Nginx安装及配置》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/nginx-install-and-configuration/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Nginx安装及配置》 — codante&url=http://codante.org/post/nginx-install-and-configuration/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/nginx-install-and-configuration/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+
+        
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/php-get-post-data/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">PHP获取post参数的几种方式</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/mobile-terminal-debugging/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">移动端前端调试工具</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

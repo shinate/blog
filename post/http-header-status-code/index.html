@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="http">
+    
+    <title>HTTP状态码 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">HTTP状态码</h1>
+<div class="post-meta">
+    
+<div class="post-category-list flex-column">
+    <a class="post-category-link" href="/blog/">首页</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/">研发之路</a>
+</div>
+
+
+    
+<div class="post-tag-list flex-column">
+    <a class="post-tag-link" href="/blog/tag/http/">http</a>
+</div>
+
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#常见的">常见的</a></li><li class="post-toc-level-0"><em>2</em><a href="#其他">其他</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-http-header-status-code"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <h2 id="常见的"><a href="#常见的" class="headerlink" title="常见的"></a>常见的</h2><ul>
+<li>200 - OK，服务器成功返回网页<ul>
+<li>Standard response for successful HTTP requests.</li>
+</ul>
+</li>
+<li>301 - Moved Permanently（永久跳转），请求的网页已永久跳转到新位置。  <ul>
+<li>This and all future requests should be directed to the given.</li>
+</ul>
+</li>
+<li>403 - Forbidden（禁止访问）,服务器拒绝请求  <ul>
+<li>forbidden request (matches a deny filter) =&gt; HTTP 403  </li>
+<li>The request was a legal request, but the server is refusing to respond to it.</li>
+</ul>
+</li>
+<li>404 - Not Found,服务器找不到请求的页面。  <ul>
+<li>The requested resource could not be found but may be available again in the future.</li>
+</ul>
+</li>
+<li>500 - Internal Server Error（内部服务器错误）  <ul>
+<li>internal error in haproxy =&gt; HTTP 500  </li>
+<li>A generic error message, given when no more specific message is suitable.</li>
+</ul>
+</li>
+<li>502 - Bad Gateway（坏的网关）,一般是网关服务器请求后端服务时，后端服务没有按照http协议正确返回结果。  <ul>
+<li>the server returned an invalid or incomplete response =&gt; HTTP 502  </li>
+<li>The server was acting as a gateway or proxy and received an invalid response from the upstream server.</li>
+</ul>
+</li>
+<li>503 - Service Unavailable（服务当前不可用）,可能因为超载或停机维护。  <ul>
+<li>no server was available to handle the request =&gt; HTTP 503  </li>
+<li>The server is currently unavailable (because it is overloaded or down for maintenance).</li>
+</ul>
+</li>
+<li>504 - Gateway Timeout（网关超时）,一般是网关服务器请求后端服务时，后端服务没有在特定的时间内完成服务。  <ul>
+<li>the server failed to reply in time =&gt; HTTP 504  </li>
+<li>The server was acting as a gateway or proxy and did not receive a timely response from the upstream server.</li>
+</ul>
+</li>
+</ul>
+<h2 id="其他"><a href="#其他" class="headerlink" title="其他"></a>其他</h2><ul>
+<li>100 : Continue</li>
+<li>101 : Switching Protocols</li>
+<li>102 : Processing</li>
+<li>200 : OK</li>
+<li>201 : Created</li>
+<li>202 : Accepted</li>
+<li>203 : Non-Authoritative Information</li>
+<li>204 : No Content</li>
+<li>205 : Reset Content</li>
+<li>206 : Partial Content</li>
+<li>207 : Multi-Status</li>
+<li>226 : IM Used</li>
+<li>300 : Multiple Choices</li>
+<li>301 : Moved Permanently</li>
+<li>302 : Found</li>
+<li>303 : See Other</li>
+<li>304 : Not Modified</li>
+<li>305 : Use Proxy</li>
+<li>306 : Reserved</li>
+<li>307 : Temporary Redirect</li>
+<li>400 : Bad Request</li>
+<li>401 : Unauthorized</li>
+<li>402 : Payment Required</li>
+<li>403 : Forbidden</li>
+<li>404 : Not Found</li>
+<li>405 : Method Not Allowed</li>
+<li>406 : Not Acceptable</li>
+<li>407 : Proxy Authentication Required</li>
+<li>408 : Request Timeout</li>
+<li>409 : Conflict</li>
+<li>410 : Gone</li>
+<li>411 : Length Required</li>
+<li>412 : Precondition Failed</li>
+<li>413 : Request Entity Too Large</li>
+<li>414 : Request-URI Too Long</li>
+<li>415 : Unsupported Media Type</li>
+<li>416 : Requested Range Not Satisfiable</li>
+<li>417 : Expectation Failed</li>
+<li>422 : Unprocessable Entity</li>
+<li>423 : Locked</li>
+<li>424 : Failed Dependency</li>
+<li>426 : Upgrade Required</li>
+<li>500 : Internal Server Error</li>
+<li>501 : Not Implemented</li>
+<li>502 : Bad Gateway</li>
+<li>503 : Service Unavailable</li>
+<li>504 : Gateway Timeout</li>
+<li>505 : HTTP Version Not Supported</li>
+<li>506 : Variant Also Negotiates</li>
+<li>507 : Insufficient Storage</li>
+<li>510 : Not Extended</li>
+</ul>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.133Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/http-header-status-code/&title=《HTTP状态码》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/http-header-status-code/&title=《HTTP状态码》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/http-header-status-code/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《HTTP状态码》 — codante&url=http://codante.org/post/http-header-status-code/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/http-header-status-code/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+<div class="post-category-list flex-column">
+    <a class="post-category-link" href="/blog/">首页</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/">研发之路</a>
+</div>
+
+
+        
+<div class="post-tag-list flex-column">
+    <a class="post-tag-link" href="/blog/tag/http/">http</a>
+</div>
+
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/commonly-used-in-english-1000/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">常用英语1000句</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/cydia-change-the-mode-to-switch-three-modes/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">Cydia更改模式-三种模式自由切换</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

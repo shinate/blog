@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>文章: 研发之路 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="page-title">codante</h1>
+<div class="article-list">
+    
+    <article id="article-rm-problem-input-output-error" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/rm-problem-input-output-error/">linux删除文件 输入/输出错误</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2018.08.30 16:52:01"
+      datetime="2018-08-30T08:52:01.000Z">2018.08.30 16:52:01</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>><a class="article-category-link" href="/blog/categorie/研发之路/服务器/">服务器</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/运维/">运维</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        rm:无法删除“xxxx”输入/输出错误当ls-l的时候发现文件信息都变成了”????????????????????”解决办法首先df-lh/目录查看挂载磁盘，比如/dev/vda1debugfs-w/dev/vda1进去后再进入目录cd/目录/.....，rm删除指定文件既可，此时不可用*通配符，必须是具体文件名
+        
+    </div>
+</article>
+
+    
+    <article id="article-linux-server-deny-global-network" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/linux-server-deny-global-network/">禁止外网ssh登录LINUX服务器</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2018.07.13 13:57:00"
+      datetime="2018-07-13T05:57:00.000Z">2018.07.13 13:57:00</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>><a class="article-category-link" href="/blog/categorie/研发之路/服务器/">服务器</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/Linux/">Linux</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        公司搭建vpn后，要控制外网ssh登录服务器。用/etc/hosts.allow，/etc/hosts.deny控制当/etc/hosts.allow与/etc/hosts.deny中有相同项时，以hosts.deny为准。允许内网登录vim/etc/hosts.allowsshd:10.0.5.0/255.255.255.0###sshd服务，允许10.0.5.0网段登录...
+        
+    </div>
+</article>
+
+    
+    <article id="article-service-log-common-commands" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/service-log-common-commands/">常用的服务器日志分析命令</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2018.07.11 12:26:27"
+      datetime="2018-07-11T04:26:27.000Z">2018.07.11 12:26:27</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>><a class="article-category-link" href="/blog/categorie/研发之路/服务器/">服务器</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/Linux/">Linux</a><a class="article-tag-link" href="/blog/tag/分析/">分析</a><a class="article-tag-link" href="/blog/tag/日志/">日志</a><a class="article-tag-link" href="/blog/tag/运维/">运维</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        IP相关统计统计IP访问量（独立ip访问数量）awk&#39;{print$1}&#39;nginx.log|sort-n|uniq|wc-l查看某一时间段的IP访问量(4-5点)grep&quot;07/Apr/2017:0[4-5]&quot;nginx.log|awk&#39;{print$1}&#39;|sort|uniq-c|sort...
+        
+    </div>
+</article>
+
+    
+    <article id="article-files-mime-type" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/files-mime-type/">文件类型与 mime-type 对对照表</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2018.06.07 22:41:48"
+      datetime="2018-06-07T14:41:48.000Z">2018.06.07 22:41:48</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/文件系统/">文件系统</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        文件后缀mime-type.*（二进制流，不知道下载文件类型）application/octet-stream.tifimage/tiff.001application/x-001.301application/x-301.323text/h323.906application/x-906.907drawing/907....
+        
+    </div>
+</article>
+
+    
+    <article id="article-css3-custom-scrollbar" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/css3-custom-scrollbar/">CSS3自定义滚动条样式</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2018.06.02 12:40:48"
+      datetime="2018-06-02T04:40:48.000Z">2018.06.02 12:40:48</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>><a class="article-category-link" href="/blog/categorie/研发之路/前端/">前端</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/css/">css</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        滚动条主体//具体含义及其他设置项：::-webkit-scrollbar{...}//滚动条整体部分::-webkit-scrollbar-thumb{...}//滚动条里面的小方块，能向上向下移动（或往左往右移动，取决于是垂直滚动条还是水平滚动条）::-webkit-scrollbar-track{...}...
+        
+    </div>
+</article>
+
+    
+    <article id="article-javascript-true-values" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/javascript-true-values/">javascript 的真值婊</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2017.06.02 21:05:59"
+      datetime="2017-06-02T13:05:59.000Z">2017.06.02 21:05:59</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>><a class="article-category-link" href="/blog/categorie/研发之路/前端/">前端</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/javascript/">javascript</a>
+</div>
+
+    <div class="article-content">
+        
+        
+    </div>
+</article>
+
+    
+    <article id="article-bash-shell-open-default-web-browser-on-mac" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/bash-shell-open-default-web-browser-on-mac/">Mac系统用bash shell用默认浏览器打开网址</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2016.01.21 00:15:42"
+      datetime="2016-01-20T16:15:42.000Z">2016.01.21 00:15:42</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>
+</div>
+
+    
+    <div class="article-content">
+        
+        
+        openhttp://codante.org-a&quot;$(VERSIONER_PERL_PREFER_32_BIT=trueperl-MMac::InternetConfig-le&#39;print+(GetICHelper&quot;http&quot;)[1]&#39;)&quot;
+        
+    </div>
+</article>
+
+    
+    <article id="article-http-header-status-code" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/http-header-status-code/">HTTP状态码</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2011.11.16 20:03:39"
+      datetime="2011-11-16T12:03:39.000Z">2011.11.16 20:03:39</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/http/">http</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        常见的200-OK，服务器成功返回网页StandardresponseforsuccessfulHTTPrequests.301-MovedPermanently（永久跳转），请求的网页已永久跳转到新位置。Thisandallfuturerequestsshouldbedirectedtothegiven.403-Forbid...
+        
+    </div>
+</article>
+
+    
+    <article id="article-javascript-in-the-ie-and-firefox-compatibility-finishing" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/javascript-in-the-ie-and-firefox-compatibility-finishing/">Javascript在IE和Firefox下的兼容性问题整理</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2011.02.28 16:23:26"
+      datetime="2011-02-28T08:23:26.000Z">2011.02.28 16:23:26</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>><a class="article-category-link" href="/blog/categorie/研发之路/前端/">前端</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/html/">html</a><a class="article-tag-link" href="/blog/tag/javascript/">javascript</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        在现代浏览器已经基本普及的今天，这些问题只能当做美好的回忆来看看了~modifiedat2018Javascript的IE和Firefox兼容性问题集合表单document.formName.item(&quot;itemName&quot;)IE：可以使用document.formName.item(&quot;itemName&quot;)或document.formNam...
+        
+    </div>
+</article>
+
+    
+    <article id="article-javascript-development-tools-comprehensive-and-practical" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/javascript-development-tools-comprehensive-and-practical/">JavaScript开发工具，全面&amp;实用！</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2011.02.09 17:05:27"
+      datetime="2011-02-09T09:05:27.000Z">2011.02.09 17:05:27</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>><a class="article-category-link" href="/blog/categorie/研发之路/前端/">前端</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/javascript/">javascript</a><a class="article-tag-link" href="/blog/tag/工具/">工具</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        不管你是JavaScript新手还是经验丰富的开发者，你所使用的工具直接影响你的工作效率。开放源代码运动使得拥有得力的工具不再意味着付一大笔钱；实际上你什么都不用付出。本文中将介绍各种对JavaScript开发者真正有实用价值的免费工具。测试器JSLint–JavaScript的验证器JSLint取得一个JavaScript源代码并对其扫描。如果发现问题，它送回信息描述问题状况及在源...
+        
+    </div>
+</article>
+
+    
+</div>
+
+<nav class="pageinator">
+    <a class="extend prev" rel="prev" href="/blog/categorie/研发之路/">上一页</a><a class="page-number" href="/blog/categorie/研发之路/">1</a><span class="page-number current">2</span><a class="page-number" href="/blog/categorie/研发之路/page/3/">3</a><a class="extend next" rel="next" href="/blog/categorie/研发之路/page/3/">下一页</a>
+</nav>
+
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

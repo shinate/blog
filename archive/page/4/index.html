@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>分类 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="page-title">codante</h1>
+<div class="article-list">
+    
+    <article id="article-linux-server-deny-global-network" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/linux-server-deny-global-network/">禁止外网ssh登录LINUX服务器</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2018.07.13 13:57:00"
+      datetime="2018-07-13T05:57:00.000Z">2018.07.13 13:57:00</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>><a class="article-category-link" href="/blog/categorie/研发之路/服务器/">服务器</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/Linux/">Linux</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        公司搭建vpn后，要控制外网ssh登录服务器。用/etc/hosts.allow，/etc/hosts.deny控制当/etc/hosts.allow与/etc/hosts.deny中有相同项时，以hosts.deny为准。允许内网登录vim/etc/hosts.allowsshd:10.0.5.0/255.255.255.0###sshd服务，允许10.0.5.0网段登录...
+        
+    </div>
+</article>
+
+    
+    <article id="article-service-log-common-commands" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/service-log-common-commands/">常用的服务器日志分析命令</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2018.07.11 12:26:27"
+      datetime="2018-07-11T04:26:27.000Z">2018.07.11 12:26:27</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>><a class="article-category-link" href="/blog/categorie/研发之路/服务器/">服务器</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/Linux/">Linux</a><a class="article-tag-link" href="/blog/tag/分析/">分析</a><a class="article-tag-link" href="/blog/tag/日志/">日志</a><a class="article-tag-link" href="/blog/tag/运维/">运维</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        IP相关统计统计IP访问量（独立ip访问数量）awk&#39;{print$1}&#39;nginx.log|sort-n|uniq|wc-l查看某一时间段的IP访问量(4-5点)grep&quot;07/Apr/2017:0[4-5]&quot;nginx.log|awk&#39;{print$1}&#39;|sort|uniq-c|sort...
+        
+    </div>
+</article>
+
+    
+    <article id="article-files-mime-type" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/files-mime-type/">文件类型与 mime-type 对对照表</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2018.06.07 22:41:48"
+      datetime="2018-06-07T14:41:48.000Z">2018.06.07 22:41:48</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/文件系统/">文件系统</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        文件后缀mime-type.*（二进制流，不知道下载文件类型）application/octet-stream.tifimage/tiff.001application/x-001.301application/x-301.323text/h323.906application/x-906.907drawing/907....
+        
+    </div>
+</article>
+
+    
+    <article id="article-css3-custom-scrollbar" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/css3-custom-scrollbar/">CSS3自定义滚动条样式</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2018.06.02 12:40:48"
+      datetime="2018-06-02T04:40:48.000Z">2018.06.02 12:40:48</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>><a class="article-category-link" href="/blog/categorie/研发之路/前端/">前端</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/css/">css</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        滚动条主体//具体含义及其他设置项：::-webkit-scrollbar{...}//滚动条整体部分::-webkit-scrollbar-thumb{...}//滚动条里面的小方块，能向上向下移动（或往左往右移动，取决于是垂直滚动条还是水平滚动条）::-webkit-scrollbar-track{...}...
+        
+    </div>
+</article>
+
+    
+    <article id="article-live-stream-technology-pre-effects" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/live-stream-technology-pre-effects/">视频直播技术 - 前期处理</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2018.05.11 22:05:19"
+      datetime="2018-05-11T14:05:19.000Z">2018.05.11 22:05:19</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/知识储备/">知识储备</a>><a class="article-category-link" href="/blog/categorie/知识储备/直播/">直播</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/流媒体/">流媒体</a><a class="article-tag-link" href="/blog/tag/直播/">直播</a><a class="article-tag-link" href="/blog/tag/视频/">视频</a><a class="article-tag-link" href="/blog/tag/音频/">音频</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        视频直播技术-前期处理大纲采集处理编码和封装推流和传输延迟优化现代播放器原理视频或者音频完成采集之后得到原始数据，为了增强一些现场效果或者加上一些额外的效果，我们一般会在将其编码压缩前进行处理，比如打上时间戳或者公司Logo的水印，祛斑美颜和声音混淆等处理。在主播和观众连麦场景中，主播需要和某个或者多个观众进行对话，并将对话结果实时分享给其他所有观众，连麦的处理也有部...
+        
+    </div>
+</article>
+
+    
+    <article id="article-live-stream-technology-acquisition" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/live-stream-technology-acquisition/">视频直播技术 - 采集</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2018.05.11 16:23:34"
+      datetime="2018-05-11T08:23:34.000Z">2018.05.11 16:23:34</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/知识储备/">知识储备</a>><a class="article-category-link" href="/blog/categorie/知识储备/直播/">直播</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/流媒体/">流媒体</a><a class="article-tag-link" href="/blog/tag/直播/">直播</a><a class="article-tag-link" href="/blog/tag/视频/">视频</a><a class="article-tag-link" href="/blog/tag/音频/">音频</a>
+</div>
+
+    <div class="article-content">
+        
+        
+        视频直播技术-采集关于直播的技术文章不少，成体系的不多。我们将用七篇文章，更系统化地介绍当下大热的视频直播各环节的关键技术，帮助视频直播创业者们更全面、深入地了解视频直播技术，更好地技术选型。大纲采集处理编码和封装推流和传输延迟优化现代播放器原理采集是整个视频推流过程中的第一个环节，它从系统的采集设备中获取原始视频数据，将其输出到下一个环节。视频的采集涉及两方面数据的...
+        
+    </div>
+</article>
+
+    
+    <article id="article-javascript-true-values" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/javascript-true-values/">javascript 的真值婊</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2017.06.02 21:05:59"
+      datetime="2017-06-02T13:05:59.000Z">2017.06.02 21:05:59</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>><a class="article-category-link" href="/blog/categorie/研发之路/前端/">前端</a>
+</div>
+
+    
+<div class="article-tag-list flex-column">
+    <a class="article-tag-link" href="/blog/tag/javascript/">javascript</a>
+</div>
+
+    <div class="article-content">
+        
+        
+    </div>
+</article>
+
+    
+    <article id="article-bash-shell-open-default-web-browser-on-mac" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/bash-shell-open-default-web-browser-on-mac/">Mac系统用bash shell用默认浏览器打开网址</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2016.01.21 00:15:42"
+      datetime="2016-01-20T16:15:42.000Z">2016.01.21 00:15:42</time>
+
+    
+<div class="article-category-list flex-column">
+    <a class="article-category-link" href="/blog/categorie/研发之路/">研发之路</a>
+</div>
+
+    
+    <div class="article-content">
+        
+        
+        openhttp://codante.org-a&quot;$(VERSIONER_PERL_PREFER_32_BIT=trueperl-MMac::InternetConfig-le&#39;print+(GetICHelper&quot;http&quot;)[1]&#39;)&quot;
+        
+    </div>
+</article>
+
+    
+    <article id="article-redis-install-and-configure" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/redis-install-and-configure/">redis安装及配置</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2012.10.31 11:13:11"
+      datetime="2012-10-31T03:13:11.000Z">2012.10.31 11:13:11</time>
+
+    
+    
+    <div class="article-content">
+        
+        
+        依赖安装redis需要先安装tclhttp://www.linuxfromscratch.org/blfs/view/cvs/general/tcl.html获取软件#tcl8.5wgethttp://downloads.sourceforge.net/tcl/tcl8.5.12-src.tar.gz#rediswgethttp://redis.googlecode.com/fi...
+        
+    </div>
+</article>
+
+    
+    <article id="article-linux-php-screenshot" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/linux-php-screenshot/">LINUX+PHP实现网页快照（截屏）</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2012.08.24 20:08:17"
+      datetime="2012-08-24T12:08:17.000Z">2012.08.24 20:08:17</time>
+
+    
+    
+    <div class="article-content">
+        
+        
+        服务器端为实现截图的程序必须借助服务器端程序：http://code.google.com/p/wkhtmltopdf/可将网页转换为pdf或者图片，32和64位有区别，找个适合自己服务器的版本。安装安装过程十分简单：解压-&gt;找个合适的路径放下…执行命令行调用/servers/app/qtwebkit/wkHtmlToImageweibo.comweibo.com.png...
+        
+    </div>
+</article>
+
+    
+</div>
+
+<nav class="pageinator">
+    <a class="extend prev" rel="prev" href="/blog/archive/page/3/">上一页</a><a class="page-number" href="/blog/archive/">1</a><a class="page-number" href="/blog/archive/page/2/">2</a><a class="page-number" href="/blog/archive/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/blog/archive/page/5/">5</a><a class="page-number" href="/blog/archive/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/blog/archive/page/9/">9</a><a class="extend next" rel="next" href="/blog/archive/page/5/">下一页</a>
+</nav>
+
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

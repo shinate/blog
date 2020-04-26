@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>CSS Expression（动态属性）用法总结 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">CSS Expression（动态属性）用法总结</h1>
+<div class="post-meta">
+    
+
+    
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#CSS-Expression">CSS Expression</a></li><li class="post-toc-level-1"><em>1.1</em><a href="#优点">优点</a></li><li class="post-toc-level-1"><em>1.2</em><a href="#缺点">缺点</a></li><li class="post-toc-level-0"><em>2</em><a href="#实例">实例</a></li></ol><ol><li class="post-toc-level-1"><em>2.1</em><a href="#背景闪烁">背景闪烁</a></li><li class="post-toc-level-1"><em>2.2</em><a href="#input样式">input样式</a></li><li class="post-toc-level-1"><em>2.3</em><a href="#隔行换色">隔行换色</a></li><li class="post-toc-level-1"><em>2.4</em><a href="#befor-after">:befor,:after</a></li></ol><ol><li class="post-toc-level-1"><em>2.5</em><a href="#图片缩放">图片缩放</a></li><li class="post-toc-level-1"><em>2.6</em><a href="#IE6的鼠标滑过">IE6的鼠标滑过</a></li><li class="post-toc-level-1"><em>2.7</em><a href="#IE6行高问题">IE6行高问题</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-css-expression-usage-summary"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <h2 id="CSS-Expression"><a href="#CSS-Expression" class="headerlink" title="CSS Expression"></a>CSS Expression</h2><p>动态 css属性，ie 私有，从5.0开始引入（IE8 不支持），参考 <a href="http://msdn.microsoft.com/en-us/library/ms537634.aspx" target="_blank" rel="noopener">MSDN</a>。一般只用在IE6的hack。</p>
+<h3 id="优点"><a href="#优点" class="headerlink" title="优点"></a>优点</h3><p>css属性动态生成，所以基本 js 能做的它都能做。选择器用的是 css的，比 js 方便得多。</p>
+<h3 id="缺点"><a href="#缺点" class="headerlink" title="缺点"></a>缺点</h3><p>expression 会反复执行，有严重的效率问题。触发方式并不是通过事件，类似于js中的 interval 。</p>
+<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><h3 id="背景闪烁"><a href="#背景闪烁" class="headerlink" title="背景闪烁"></a>背景闪烁</h3><p>IE6的背景闪烁Bug Fix</p>
+<pre><code class="css">body {
+zoom: expression(function(el){
+document.execCommand(&#39;BackgroundImageCache&#39;, false, true);
+el.style.zoom = &#39;1&#39;;
+}(this));
+}</code></pre>
+<h3 id="input样式"><a href="#input样式" class="headerlink" title="input样式"></a>input样式</h3><p>给不同 type 的 input 赋予不同的样式</p>
+<pre><code class="css">input {
+zoom: expression(function(el){
+    el.style.zoom = &quot;1&quot;;
+    el.className ? el.className+=&quot; &quot;+el.type : el.className=el.type;
+}(this));
+}</code></pre>
+<h3 id="隔行换色"><a href="#隔行换色" class="headerlink" title="隔行换色"></a>隔行换色</h3><p>zebra lists</p>
+<pre><code class="css">.test {
+unicode-bidi: expression(function(el){
+    el.style.unicodeBidi = &quot;normal&quot;;
+    var childs = el.getElementsByTagName(&quot;li&quot;);
+    for(var i=0; i
+        (i % 2)?childs[i].className+=&quot; even&quot;:childs[i].className+=&quot; odd&quot;;
+    }
+}(this));
+}</code></pre>
+<h3 id="befor-after"><a href="#befor-after" class="headerlink" title=":befor,:after"></a>:befor,:after</h3><p>模拟” :before” 或者 “:after”</p>
+<pre><code class="css">.test {
+letter-spacing: expression(function(el){
+    el.style.letterSpacing = &quot;0&quot;;
+    var newchild = document.createElement(&quot;span&quot;);
+    newchild.className=&quot;after&quot;;
+    newchild.appendChild(document.createTextNode(&quot; World!&quot;));
+    el.appendChild(newchild);
+}(this));
+}</code></pre>
+<h3 id="图片缩放"><a href="#图片缩放" class="headerlink" title="图片缩放"></a>图片缩放</h3><p>模拟图片的：max-width 和 max-height (或 min-width 和 min-height)</p>
+<pre><code class="css">.max-width span img {
+max-width:120px;
+max-height:120px;
+zoom:expression(function(el){
+    el.style.zoom = &quot;1&quot;;
+    var resizeImg = function() {
+        if (el.width &amp;gt; 120 || el.height &amp;gt; 120) {
+            if (el.width &amp;gt; el.height) {
+                el.width = &quot;120&quot;;
+                el.height = el.height * (el.width / 120);
+            } else {
+                el.height = &quot;120&quot;;
+                el.width = el.width * (el.height / 120);
+            }
+        }
+    }
+    if (el.complete) {
+        resizeImg();
+    } else {
+        el.onload = function() {
+            resizeImg();
+        }
+    }
+}(this));
+}</code></pre>
+<h3 id="IE6的鼠标滑过"><a href="#IE6的鼠标滑过" class="headerlink" title="IE6的鼠标滑过"></a>IE6的鼠标滑过</h3><p>a之外元素:hover</p>
+<pre><code class="css">.ie6-hover input:hover, .ie6-hover .h {
+border:1px solid red;
+}
+.enable-ie6-hover input {
+_zoom:expression(function(el){
+    el.style.zoom = &quot;0&quot;;
+    el.onmouseenter = function() {
+        el.className = &quot;h&quot;;
+    };
+    el.onmouseleave = function() {
+        el.className = &quot;&quot;;
+    };
+}(this));
+}</code></pre>
+<h3 id="IE6行高问题"><a href="#IE6行高问题" class="headerlink" title="IE6行高问题"></a>IE6行高问题</h3><p>line-height bug</p>
+<pre><code class="css">.ie6-line-height-bug { background:\#f2f2f2; line-height:50px; zoom:1; }
+.ie6-line-height-bug-fixed input {
+_zoom: expression(function(el){
+    el.style.zoom = &quot;1&quot;;
+    var iefixer = document.createElement(&quot;b&quot;);
+    iefixer.style.zoom = 1;
+    el.parentNode.insertBefore(iefixer, el);
+}(this));
+}</code></pre>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.119Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/css-expression-usage-summary/&title=《CSS Expression（动态属性）用法总结》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/css-expression-usage-summary/&title=《CSS Expression（动态属性）用法总结》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/css-expression-usage-summary/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CSS Expression（动态属性）用法总结》 — codante&url=http://codante.org/post/css-expression-usage-summary/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/css-expression-usage-summary/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+
+        
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/css3-rounded-attributes-of-the-implementation-of-the-browser/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">CSS3圆角属性在各浏览器中的实现</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/javascript-development-tools-comprehensive-and-practical/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">JavaScript开发工具，全面&amp;实用！</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

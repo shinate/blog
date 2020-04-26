@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="javascript,html">
+    
+    <title>Javascript在IE和Firefox下的兼容性问题整理 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">Javascript在IE和Firefox下的兼容性问题整理</h1>
+<div class="post-meta">
+    
+<div class="post-category-list flex-column">
+    <a class="post-category-link" href="/blog/">首页</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/">研发之路</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/前端/">前端</a>
+</div>
+
+
+    
+<div class="post-tag-list flex-column">
+    <a class="post-tag-link" href="/blog/tag/html/">html</a><a class="post-tag-link" href="/blog/tag/javascript/">javascript</a>
+</div>
+
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#表单">表单</a></li><li class="post-toc-level-0"><em>2</em><a href="#集合类对象">集合类对象</a></li><li class="post-toc-level-0"><em>3</em><a href="#自定义属性">自定义属性</a></li><li class="post-toc-level-0"><em>4</em><a href="#元素获取">元素获取</a></li><li class="post-toc-level-0"><em>5</em><a href="#命名重复">命名重复</a></li><li class="post-toc-level-0"><em>6</em><a href="#const">const</a></li></ol><ol><li class="post-toc-level-0"><em>7</em><a href="#input-type">input.type</a></li><li class="post-toc-level-0"><em>8</em><a href="#window-event">window.event</a></li><li class="post-toc-level-0"><em>9</em><a href="#event-x与event-y">event.x与event.y</a></li><li class="post-toc-level-0"><em>10</em><a href="#event-srcElement">event.srcElement</a></li><li class="post-toc-level-0"><em>11</em><a href="#window-location-href">window.location.href</a></li><li class="post-toc-level-0"><em>12</em><a href="#模态和非模态窗口">模态和非模态窗口</a></li></ol><ol><li class="post-toc-level-0"><em>13</em><a href="#frame">frame</a></li><li class="post-toc-level-0"><em>14</em><a href="#body">body</a></li><li class="post-toc-level-0"><em>15</em><a href="#事件委托方法">事件委托方法</a></li><li class="post-toc-level-0"><em>16</em><a href="#父元素">父元素</a></li><li class="post-toc-level-0"><em>17</em><a href="#鼠标指针cursor">鼠标指针cursor</a></li><li class="post-toc-level-0"><em>18</em><a href="#内容文本">内容文本</a></li></ol><ol><li class="post-toc-level-0"><em>19</em><a href="#对table的操作">对table的操作</a></li><li class="post-toc-level-0"><em>20</em><a href="#options集合">options集合</a></li><li class="post-toc-level-0"><em>21</em><a href="#XMLHTTP">XMLHTTP</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-javascript-in-the-ie-and-firefox-compatibility-finishing"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <p><strong>在现代浏览器已经基本普及的今天，这些问题只能当做美好的回忆来看看了~ modified at 2018</strong></p>
+<p>Javascript的IE和Firefox兼容性问题集合</p>
+<h2 id="表单"><a href="#表单" class="headerlink" title="表单"></a>表单</h2><p><code>document.formName.item(&quot;itemName&quot;)</code></p>
+<ul>
+<li>IE：可以使用<code>document.formName.item(&quot;itemName&quot;)</code>或<code>document.formName.elements[&quot;elementName&quot;]</code></li>
+<li>Firefox：只能使用<code>document.formName.elements[&quot;elementName&quot;]</code></li>
+</ul>
+<p><strong>解决方法：</strong>统一使用<code>document.formName.elements[&quot;elementName&quot;]</code></p>
+<h2 id="集合类对象"><a href="#集合类对象" class="headerlink" title="集合类对象"></a>集合类对象</h2><ul>
+<li>IE：可以使用()或[]获取集合类对象;</li>
+<li>Firefox：只能使用[]获取集合类对象.</li>
+</ul>
+<p><strong>解决方法：</strong>统一使用[]获取集合类对象.</p>
+<h2 id="自定义属性"><a href="#自定义属性" class="headerlink" title="自定义属性"></a>自定义属性</h2><ul>
+<li>IE：可以使用获取常规属性的方法来获取自定义属性，也可以使用getAttribute()获取自定义属性</li>
+<li>Firefox：只能使用getAttribute()获取自定义属性.</li>
+</ul>
+<p><strong>解决方法：</strong>统一通过getAttribute()获取自定义属性.</p>
+<h2 id="元素获取"><a href="#元素获取" class="headerlink" title="元素获取"></a>元素获取</h2><p><code>eval(&quot;idName&quot;)</code></p>
+<ul>
+<li>IE：可以使用<code>eval(&quot;idName&quot;)</code>或<code>getElementById(&quot;idName&quot;)</code>来取得id为idName的HTML对象;</li>
+<li>Firefox：只能使用<code>getElementById(&quot;idName&quot;)</code>来取得id为idName的HTML对象。</li>
+</ul>
+<p><strong>解决方法：</strong>统一用<code>getElementById(&quot;idName&quot;)</code>来取得id为idName的HTML对象。</p>
+<h2 id="命名重复"><a href="#命名重复" class="headerlink" title="命名重复"></a>命名重复</h2><p>变量名与某HTML对象ID相同的问题</p>
+<ul>
+<li>IE：HTML对象的ID可以作为document的下属对象变量名直接使用，Firefox下则不能；</li>
+<li>Firefox：可以使用与HTML对象ID相同的变量名，IE下则不能。</li>
+</ul>
+<p><strong>解决方法：</strong>使用<code>document.getElementById(&quot;idName&quot;)</code>代替<code>document.idName</code>。最好不要取HTML对象ID相同的变量名,以减少错误;在声明变量时，一律加上var，以避免产生歧义。</p>
+<h2 id="const"><a href="#const" class="headerlink" title="const"></a>const</h2><ul>
+<li>IE：只能使用var关键字来定义变量。</li>
+<li>Firefox：可以使用const关键字或var关键字来定义变量。</li>
+</ul>
+<p><strong>解决方法：</strong>统一使用var关键字来定义变量。</p>
+<h2 id="input-type"><a href="#input-type" class="headerlink" title="input.type"></a>input.type</h2><p>input.type属性问题</p>
+<ul>
+<li>IE：input.type属性为只读。</li>
+<li>Firefox：input.type属性为读写。</li>
+</ul>
+<h2 id="window-event"><a href="#window-event" class="headerlink" title="window.event"></a>window.event</h2><ul>
+<li>window.event只能在IE下运行，而不能在Firefox下运行，这是因为Firefox的event只能在事件发生的现场使用。</li>
+<li>Firefox：必须从源处加入event作参数传递。IE忽略该参数，用window.event来读取该event。</li>
+</ul>
+<p><strong>解决方法：</strong></p>
+<pre><code class="javascript">&amp;lt;script language=&quot;javascript&quot;&amp;gt;
+function fun(e) {
+    e = e ? e : (window.event ? window.event : null);
+}
+&amp;lt;/script&amp;gt;</code></pre>
+<h2 id="event-x与event-y"><a href="#event-x与event-y" class="headerlink" title="event.x与event.y"></a>event.x与event.y</h2><p>说明:IE下,even对象有x,y属性,但是没有pageX,pageY属性;Firefox下,even对象有pageX,pageY属性,但是没有x,y属性.</p>
+<p><strong>解决方法：</strong>使用<code>mX(mX = event.x ? event.x : event.pageX;)</code>来代替IE下的event.x或者Firefox下的event.pageX.</p>
+<h2 id="event-srcElement"><a href="#event-srcElement" class="headerlink" title="event.srcElement"></a>event.srcElement</h2><ul>
+<li>IE：event对象有srcElement属性，但是没有target属性；</li>
+<li>Firefox：even对象有target属性，但是没有srcElement属性。</li>
+</ul>
+<p><strong>解决方法：</strong>使用<code>obj(obj = event.srcElement?event.srcElement:event.target;)</code>来代替IE下的event.srcElement或者Firefox下的event.target。请同时注意event 的兼容性问题。</p>
+<h2 id="window-location-href"><a href="#window-location-href" class="headerlink" title="window.location.href"></a>window.location.href</h2><ul>
+<li>IE或者Firefox2.0.x：可以使用window.location或window.location.href；</li>
+<li>Firefox1.5.x：只能使用window.location</li>
+</ul>
+<p><strong>解决方法：</strong>使用window.location来代替window.location.href.</p>
+<h2 id="模态和非模态窗口"><a href="#模态和非模态窗口" class="headerlink" title="模态和非模态窗口"></a>模态和非模态窗口</h2><ul>
+<li>IE：可以通过showModalDialog和showModelessDialog打开模态和非模态窗口</li>
+<li>Firefox：不能！</li>
+</ul>
+<p><strong>解决方法：</strong>直接使用window.open(pageURL, name, parameters)方式打开新窗口。<br>如果需要将子窗口中的参数传递回父窗口,可以在子窗口中使用window.opener来访问父窗口. 例如：var parWin =  window.opener;parWin.document.getElementById(“Aqing”).value = “Aqing”;</p>
+<h2 id="frame"><a href="#frame" class="headerlink" title="frame"></a>frame</h2><p>以下面的frame为例：</p>
+<p><code>&lt;frame src=&quot;xxx.html&quot; id=&quot;frameId&quot; name=&quot;frameName&quot; /&gt;</code></p>
+<ul>
+<li><p>访问frame对象：</p>
+<p>[ ie中返回的为object , ff中会显示具体的类型 比如： object window ]  </p>
+<ul>
+<li><p>IE：使用window.frameId或者window.frameName来访问这个frame对象. frameId和frameName可以同名。  </p>
+</li>
+<li><p>Firefox：只能使用window.frameName来访问这个frame对象.  </p>
+</li>
+</ul>
+</li>
+</ul>
+<p><strong>在IE和Firefox中都可以使用window.document.getElementById(“frameId”)来访问这个frame对象.</strong></p>
+<ul>
+<li><p>切换frame内容:  </p>
+<p>在IE和Firefox中都可以使用window.document.getElementById(“testFrame”).src = “xxx.html”或window.frameName.location = “xxx.html”来切换frame的内容.  </p>
+<p>如果需要将frame中的参数传回父窗口(注意不是opener,而是parent frame)，可以在frme中使用parent来访问父窗口。例如：parent.document.form1.filename.value=”a”;</p>
+</li>
+</ul>
+<h2 id="body"><a href="#body" class="headerlink" title="body"></a>body</h2><ul>
+<li>IE：body必须在body标签被浏览器完全读入之后才存在。</li>
+<li>Firefox：body在body标签没有被浏览器完全读入之前就存在。</li>
+</ul>
+<h2 id="事件委托方法"><a href="#事件委托方法" class="headerlink" title="事件委托方法"></a>事件委托方法</h2><ul>
+<li>IE：document.body.onload = inject; //function inject()在这之前已被实现</li>
+<li>Firefox：document.body.onload = inject();</li>
+</ul>
+<h2 id="父元素"><a href="#父元素" class="headerlink" title="父元素"></a>父元素</h2><p>Firefox与IE的父元素(parentElement)的区别</p>
+<ul>
+<li>IE：obj.parentElement</li>
+<li>Firefox：obj.parentNode</li>
+</ul>
+<p><strong>解决方法：</strong>因为firefox与IE都支持DOM,因此使用obj.parentNode是不错选择.</p>
+<h2 id="鼠标指针cursor"><a href="#鼠标指针cursor" class="headerlink" title="鼠标指针cursor"></a>鼠标指针cursor</h2><p>cursor:hand VS cursor:pointer</p>
+<ul>
+<li>Firefox：不支持hand</li>
+<li>IE：支持pointer</li>
+</ul>
+<p><strong>解决方法：</strong>统一使用pointer</p>
+<h2 id="内容文本"><a href="#内容文本" class="headerlink" title="内容文本"></a>内容文本</h2><p>innerText在IE中能正常工作。但是innerText在FireFox中却不行，需用textContent。</p>
+<p><strong>解决方法：</strong></p>
+<pre><code class="javascript">if(navigator.appName.indexOf(&quot;Explorer&quot;) &amp;gt; -1){
+    document.getElementById(&#39;element&#39;).innerText = &quot;my text&quot;;
+} else{
+    document.getElementById(&#39;element&#39;).textC;
+}</code></pre>
+<h2 id="对table的操作"><a href="#对table的操作" class="headerlink" title="对table的操作"></a>对table的操作</h2><p>IE，Firefox以及其它浏览器对于 table 标签的操作都各不相同，在IE中不允许对table和tr的innerHTML赋值，使用js增加一个tr时，使用appendChild方法也不管用。</p>
+<p><strong>解决方法：</strong></p>
+<pre><code class="javascript">//向table追加一个空行：
+var row = otable.insertRow(-1);
+var cell = document.createElement(&quot;td&quot;);
+cell.innerHTML = &quot; &quot;;
+cell.className = &quot;a&quot;;
+row.appendChild(cell);</code></pre>
+<h2 id="options集合"><a href="#options集合" class="headerlink" title="options集合"></a>options集合</h2><p>对select的options集合操作<br>枚举元素除了[]外，SelectName.options.item()也是可以的,另外SelectName.options.length，SelectName.options.add/remove都可以在两种浏览器上使用。</p>
+<p><strong>注意在 add后赋值元素，否则会失败。</strong></p>
+<h2 id="XMLHTTP"><a href="#XMLHTTP" class="headerlink" title="XMLHTTP"></a>XMLHTTP</h2><pre><code class="javascript">if (window.XMLHttpRequest) {
+    xmlhttp = new XMLHttpRequest();
+} else if (window.ActiveXObject) {  // code for IE
+    xmlhttp = new ActiveXObject(&quot;Microsoft.XMLHTTP&quot;);
+}
+if (xmlhttp){
+    xmlhttp.onreadystatechange = xmlhttpChange;
+    xmlhttp.open(&quot;GET&quot;,url,true);
+    xmlhttp.send();
+}</code></pre>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.137Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/javascript-in-the-ie-and-firefox-compatibility-finishing/&title=《Javascript在IE和Firefox下的兼容性问题整理》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/javascript-in-the-ie-and-firefox-compatibility-finishing/&title=《Javascript在IE和Firefox下的兼容性问题整理》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/javascript-in-the-ie-and-firefox-compatibility-finishing/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Javascript在IE和Firefox下的兼容性问题整理》 — codante&url=http://codante.org/post/javascript-in-the-ie-and-firefox-compatibility-finishing/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/javascript-in-the-ie-and-firefox-compatibility-finishing/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+<div class="post-category-list flex-column">
+    <a class="post-category-link" href="/blog/">首页</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/">研发之路</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/前端/">前端</a>
+</div>
+
+
+        
+<div class="post-tag-list flex-column">
+    <a class="post-tag-link" href="/blog/tag/html/">html</a><a class="post-tag-link" href="/blog/tag/javascript/">javascript</a>
+</div>
+
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/outerhtml-in-firefox/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">FireFox中的outerHTML</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/by-the-interest-in-learning-english/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">学英语要从兴趣开始</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

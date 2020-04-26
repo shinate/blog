@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>浏览器内核(Rendering Engine):Trident、Gecko、Presto、KHTML、WebCore、WebKit | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">浏览器内核(Rendering Engine):Trident、Gecko、Presto、KHTML、WebCore、WebKit</h1>
+<div class="post-meta">
+    
+
+    
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#Trident">Trident</a></li><li class="post-toc-level-0"><em>2</em><a href="#Gecko">Gecko</a></li><li class="post-toc-level-0"><em>3</em><a href="#Presto">Presto</a></li><li class="post-toc-level-0"><em>4</em><a href="#KHTML-WebCore">KHTML/WebCore</a></li></ol><ol><li class="post-toc-level-1"><em>4.1</em><a href="#KHTML">KHTML</a></li><li class="post-toc-level-1"><em>4.2</em><a href="#WebCore">WebCore</a></li><li class="post-toc-level-1"><em>4.3</em><a href="#WebKit">WebKit</a></li><li class="post-toc-level-0"><em>5</em><a href="#Konqueror">Konqueror</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-rendering-engine-trident-gecko-presto-khtml-webcore-webkit"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <p>几种常见的浏览器内核简介：</p>
+<h2 id="Trident"><a href="#Trident" class="headerlink" title="Trident"></a>Trident</h2><p>Windows下的IE浏览器使用的内核代号。除IE外，众多的IE Shell（如 Maxthon）都使用这个内核。<br>Trident （又称为MSHTML），是微软的窗口操作系统（Windows）搭载的网页浏览器—Internet   Explorer的排版引擎的名称，它的第一个版本随着1997年10月Internet   Explorer第四版释出，之后不断的加入新的技术并随着新版本的Internet Explorer释出。在未来最新的Internet   Explorer第七版中，微软将对Trident排版引擎做了的重大的变动，除了加入新的技术之外，并增加对网页标准的支持。尽管这些变动已经在相当大  的程度上落后了其它的排版引擎，如Gecko、WebCore、KHTML及Presto。</p>
+<h2 id="Gecko"><a href="#Gecko" class="headerlink" title="Gecko"></a>Gecko</h2><p>Mozilla Firefox浏览器使用的内核代号。使用Gecko内核的浏览器也有不少，如Netscape、MozillaSuite/SeaMonkey等。另外，Mozilla Thunderbird也使用Gecko。<br>Gecko壁虎，英文为”Gecko”。Gecko是由Mozilla基金会开发的布局引擎的名字。它原本叫作NGLayout。Gecko的作用是读取 诸如HTML、CSS、XUL和JavaScript等的网页内容，并呈  现到用户屏幕或打印出来。Gecko已经被许多应用程序所使用，包括若干浏览器，例如Firefox、Mozilla Suite、Camino等等。</p>
+<h2 id="Presto"><a href="#Presto" class="headerlink" title="Presto"></a>Presto</h2><p>Opera浏览器使用的内核代号，这是目前公认网页浏览速度最快的浏览器内核。<br>Presto是一个由Opera Software开发的浏览器排版引擎，供Opera 7.0及以上使用。<br>Presto取代了旧版Opera 4至6版本使用的Elektra排版引擎，包括加入动态功能，例如网页或其部分可随着DOM及Script语法的事件而重新排版。<br>Presto在推出后不断有更新版本推出，使不少错误得以修正，以及阅读Javascript效能得以最佳化，并成为速度最快的引擎。</p>
+<h2 id="KHTML-WebCore"><a href="#KHTML-WebCore" class="headerlink" title="KHTML/WebCore"></a>KHTML/WebCore</h2><p>Konqueror/Safari浏览器使用的内核代号。Konqueror是X协议下的KDE桌面环境使用的浏览器和资源 管理器，可以用在Unix/Linux/BSD系统中，KDE 4.0以后向Windows移植；Safari则是Apple用户中最受欢迎的浏览器。</p>
+<h3 id="KHTML"><a href="#KHTML" class="headerlink" title="KHTML"></a>KHTML</h3><p>KHTML是HTML网页排版引擎之一，由KDE所开发。<br>KDE系统自KDE2版起，在档案及网页浏览器使用了KHTML引擎。该引擎以C++编程语言所写，并以LGPL授权，支援大多数网页浏览标准。由于微软的Internet Explorer的占有率相当高，不少以FrontPage制作的网页均包含只有IE才能读取的非标准语法，为了使KHTML引擎可呈现的网页达到最多，部分IE专属的语法也一并支援。<br>KHTML拥有速度快捷的优点，但对错误语法的容忍度则比Mozilla产品所使用的Gecko引擎小。<br>苹果电脑于2002年采纳了KHTML，作为开发Safari浏览器之用，并发布所修改的最新及过去版本源代码。后来发表了开放源代码的WebCore及WebKit引擎，它们均是KHTML的衍生产品，在开发网站列出引擎改变内容，并会传回至KDE计划。由于两个衍生产品各走不同路线，使两者源代码偏离，在与KDE交换更新会出现困难。其中一个原因，是苹果在对外公开源代码之前，以一年时间编修他们的KHTML。另外，苹果传送更新至KDE计划的方式，多是一口气把大量改动一起传送，KDE在整理资料也出现一定的困难，及后苹果表示会以CVS格式来传送。再者，苹果所作出的改动包括Mac OS X系统独有的事物，如Objective-C、KWQ等，在Linux及KHTML是没有的。但KDE方面仍透过这些改动，为KHTML加入新功能及加快其排版速度。</p>
+<h3 id="WebCore"><a href="#WebCore" class="headerlink" title="WebCore"></a>WebCore</h3><p>WebCore是苹果公司开发的排版引擎，它是在另外一个排版引擎”KHTML”的基础上而来的。苹果电脑于2002年采纳了KHTML，作为开发Safari浏览器之用，并发布所修改的最新及过去版本源代码。后来发表了开放源代码的WebCore及WebKit引擎，它们均是KHTML的衍生产品。使用WebCore的主要有Safari，此外还有OmniWeb、Shiira、Swift等。</p>
+<h3 id="WebKit"><a href="#WebKit" class="headerlink" title="WebKit"></a>WebKit</h3><p>WebKit是一个开源浏览器网页排版引擎，与之相应的引擎有Gecko（Mozilla，Firefox  等使用的排版引擎）和Trident（也称为MSHTML，IE 使用的排版引擎）。同时WebKit 也是苹果Mac OS X  系统引擎框架版本的名称，主要用于Safari，Dashboard，Mail 和其他一些Mac OS X 程序。WebKit 所包含的  WebCore 排版引擎和 JSCore 引擎来自于 KDE 的 KHTML 和 KJS，当年苹果比较了 Gecko 和 KHTML  后，仍然选择了后者，就因为它拥有清晰的源码结构、极快的渲染速度。<br>目前使用WebKit 引擎的浏览器主要有：Safari(apple出品)，Midori，chrome(google出品)等。2009年推出的safari和chrome使用的webkit引擎完全通过了acid3测试满分！</p>
+<h2 id="Konqueror"><a href="#Konqueror" class="headerlink" title="Konqueror"></a>Konqueror</h2><p>Konqueror是 KDE 桌面系统的一部分，主要用于 Linux 和 BSD家族的操作系统。在微软的 Windows 系统下，也有零星使用，当然功能相对有限。Konqueror主要用于文件管理、浏览，以及网页浏览。Konqueror 按照 GPL 进行发布。<br>在给 Konqueror 命名上，其命名者跟其它的网页浏览器玩了个文字游戏：首先是 Navigator（意为航海家，网景公司的浏览器）、然后是 Explorer（意为探索者），接下来就是 Konqueror （Conqueror 的变体，意为征服者）啦；这里首字母取 K 是为了遵循 KDE 软件都以 K 打头的传统。</p>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.163Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/rendering-engine-trident-gecko-presto-khtml-webcore-webkit/&title=《浏览器内核(Rendering Engine):Trident、Gecko、Presto、KHTML、WebCore、WebKit》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/rendering-engine-trident-gecko-presto-khtml-webcore-webkit/&title=《浏览器内核(Rendering Engine):Trident、Gecko、Presto、KHTML、WebCore、WebKit》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/rendering-engine-trident-gecko-presto-khtml-webcore-webkit/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《浏览器内核(Rendering Engine):Trident、Gecko、Presto、KHTML、WebCore、WebKit》 — codante&url=http://codante.org/post/rendering-engine-trident-gecko-presto-khtml-webcore-webkit/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/rendering-engine-trident-gecko-presto-khtml-webcore-webkit/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+
+        
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/create-a-soft-link-in-the-windows-junction-of-use/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">在windows中创建软链接，junction的使用方法</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/css3-rounded-attributes-of-the-implementation-of-the-browser/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">CSS3圆角属性在各浏览器中的实现</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

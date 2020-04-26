@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>CSS3圆角属性在各浏览器中的实现 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">CSS3圆角属性在各浏览器中的实现</h1>
+<div class="post-meta">
+    
+
+    
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#火狐">火狐</a></li><li class="post-toc-level-0"><em>2</em><a href="#webkit">webkit</a></li><li class="post-toc-level-0"><em>3</em><a href="#非window环境">非window环境</a></li><li class="post-toc-level-0"><em>4</em><a href="#IE">IE</a></li></ol><ol><li class="post-toc-level-0"><em>5</em><a href="#效果演示">效果演示</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-css3-rounded-attributes-of-the-implementation-of-the-browser"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <p>圆角属性border-radius在CSS3中出现了，目前为止IE仍然没有支持它… 这里就不浪费口水了。<br>根据浏览器所用引擎的不同，圆角的使用方式也略有不同。</p>
+<h2 id="火狐"><a href="#火狐" class="headerlink" title="火狐"></a>火狐</h2><p>firefox目前还不能直接支持border-radius，所以只能使用其特有的属性。<br>代码结构：-moz-border-radius: {1,4} | inherit<br>如果设置四个角都是一样圆角的话，可以这样</p>
+<pre><code class="css">-moz-border-radius:5px;</code></pre>
+<p>当然也可根据需要对四个角单独设置，顺序是顺时针从左上开始，上左、上右、下右、下左，</p>
+<pre><code class="css">-moz-border-radius-topleft: 5px;
+-moz-border-radius-topright: 5px;
+-moz-border-radius-bottomright: 5px;
+-moz-border-radius-bottomleft: 5px;</code></pre>
+<p>也可以用合并起来一起设置</p>
+<pre><code class="css">-moz-border-radius:5px 0 5px 0;</code></pre>
+<h2 id="webkit"><a href="#webkit" class="headerlink" title="webkit"></a>webkit</h2><p>Safari, Google Chrome 都是基于Webkit 的。<br>代码结构：-webkit-border-radius：{1,2} | inherit;<br>如果设置四个角都是一样圆角的话，可以这样</p>
+<pre><code class="css">-webkit-border-radius:3px;</code></pre>
+<p>如果是单独设置四个角的话，需要采取这种方式</p>
+<pre><code class="css">-webkit-border-top-left-radius:3px 5px;
+-webkit-border-top-right-radius:3px 5px;
+-webkit-border-bottom-right-radius:3px 5px;
+-webkit-border-bottom-left-radius:3px 5px;</code></pre>
+<p>webkit的每个角都能设置的更加细致，分别对每个角的x、y进行设置，表现出非正圆的弧形，带来的问题就是无法像火狐那样全部合并来写。<br>如果是要合并的话，只能使用-webkit-border-radius:3px;或者-webkit-border-radius:3px 5px;</p>
+<h2 id="非window环境"><a href="#非window环境" class="headerlink" title="非window环境"></a>非window环境</h2><p>在Unix/Linux/BSD系统中非火狐浏览器，主要使用KED出品的khtml引擎。<br>代码结构：-khtml-border-radius: {1,2} | inherit<br>类似于webkit。怎么说呢，虽然是小众，加上也无妨。</p>
+<h2 id="IE"><a href="#IE" class="headerlink" title="IE"></a>IE</h2><p>要不是因为在中国拥有50%以上的占有率还真不想提它，这个恨呐！<br>刚在网上翻了翻，还真有解决的办法。<br>在样式表里增加行为(behavior)，什么东西？你懂的！以前写hover的时候用过，这里还得用。<br>为了兼容IE，可以用以下代码：</p>
+<pre><code class="css">-moz-border-radius: 15px;
+-khtml-border-radius: 15px;
+-webkit-border-radius: 15px;
+border-radius: 15px;
+behavior: url(border-radius.htc);</code></pre>
+<h2 id="效果演示"><a href="#效果演示" class="headerlink" title="效果演示"></a>效果演示</h2><p>[<a href="http://unite.codante.org/development/tester/border-radius/][0]" target="_blank" rel="noopener">http://unite.codante.org/development/tester/border-radius/][0]</a><br>下载：[border-radius.zip][1]<br>[0]: <a href="http://unite.codante.org/development/tester/border-radius/" target="_blank" rel="noopener">http://unite.codante.org/development/tester/border-radius/</a><br>[1]: <a href="http://codante.org/wp-content/uploads/2011/02/border-radius.zip">http://codante.org/wp-content/uploads/2011/02/border-radius.zip</a></p>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.121Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/css3-rounded-attributes-of-the-implementation-of-the-browser/&title=《CSS3圆角属性在各浏览器中的实现》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/css3-rounded-attributes-of-the-implementation-of-the-browser/&title=《CSS3圆角属性在各浏览器中的实现》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/css3-rounded-attributes-of-the-implementation-of-the-browser/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《CSS3圆角属性在各浏览器中的实现》 — codante&url=http://codante.org/post/css3-rounded-attributes-of-the-implementation-of-the-browser/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/css3-rounded-attributes-of-the-implementation-of-the-browser/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+
+        
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/rendering-engine-trident-gecko-presto-khtml-webcore-webkit/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">浏览器内核(Rendering Engine):Trident、Gecko、Presto、KHTML、WebCore、WebKit</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/css-expression-usage-summary/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">CSS Expression（动态属性）用法总结</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

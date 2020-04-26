@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>yum使用说明 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">yum使用说明</h1>
+<div class="post-meta">
+    
+
+    
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#安装">安装</a></li><li class="post-toc-level-1"><em>1.1</em><a href="#单一软件">单一软件</a></li><li class="post-toc-level-1"><em>1.2</em><a href="#多个类似软件">多个类似软件</a></li><li class="post-toc-level-1"><em>1.3</em><a href="#多个非类似软件">多个非类似软件</a></li></ol><ol><li class="post-toc-level-0"><em>2</em><a href="#卸载">卸载</a></li><li class="post-toc-level-1"><em>2.1</em><a href="#单一软件">单一软件</a></li><li class="post-toc-level-1"><em>2.2</em><a href="#多个相类似软件">多个相类似软件</a></li><li class="post-toc-level-1"><em>2.3</em><a href="#多个非类似软件">多个非类似软件</a></li></ol><ol><li class="post-toc-level-0"><em>3</em><a href="#yum-search">yum search</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-yum-man"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <p>在Centos中yum安装和卸载软件的使用方法</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h3 id="单一软件"><a href="#单一软件" class="headerlink" title="单一软件"></a>单一软件</h3><pre><code class="bash">yum -y install httpd</code></pre>
+<h3 id="多个类似软件"><a href="#多个类似软件" class="headerlink" title="多个类似软件"></a>多个类似软件</h3><pre><code class="bash">yum -y install httpd*</code></pre>
+<h3 id="多个非类似软件"><a href="#多个非类似软件" class="headerlink" title="多个非类似软件"></a>多个非类似软件</h3><pre><code class="bash">yum -y install httpd php php-gd mysql</code></pre>
+<h2 id="卸载"><a href="#卸载" class="headerlink" title="卸载"></a>卸载</h2><h3 id="单一软件-1"><a href="#单一软件-1" class="headerlink" title="单一软件"></a>单一软件</h3><pre><code class="bash">yum -y remove httpd</code></pre>
+<h3 id="多个相类似软件"><a href="#多个相类似软件" class="headerlink" title="多个相类似软件"></a>多个相类似软件</h3><pre><code class="bash">yum -y remove httpd*</code></pre>
+<h3 id="多个非类似软件-1"><a href="#多个非类似软件-1" class="headerlink" title="多个非类似软件"></a>多个非类似软件</h3><pre><code class="bash">yum -y remove httpd php php-gd mysql</code></pre>
+<h2 id="yum-search"><a href="#yum-search" class="headerlink" title="yum search"></a>yum search</h2><p>假如我要执行iostat这个命令来查看CPU与存储设备状态，可是执行却发现没有这个命令，于是执行yum install iostat，结果说找不到该软件，使用下面的办法可以解决</p>
+<pre><code class="bash">yum search iostat</code></pre>
+<p>就能查到和iostat相关的安装包了。<br>另外想安装一个程序，只记得一部分名称，也可以用这个办法来实现安装</p>
+<pre><code class="bash">yum search png |grep png</code></pre>
+<p>就能找到我们想安装的libpng这个名称。</p>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.173Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/yum-man/&title=《yum使用说明》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/yum-man/&title=《yum使用说明》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/yum-man/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《yum使用说明》 — codante&url=http://codante.org/post/yum-man/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/yum-man/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+
+        
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/linux-php-screenshot/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">LINUX+PHP实现网页快照（截屏）</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/commonly-used-in-english-1000/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">常用英语1000句</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

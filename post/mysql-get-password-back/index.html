@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content="mysql">
+    
+    <title>Mysql数据库丢失root密码恢复 | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">Mysql数据库丢失root密码恢复</h1>
+<div class="post-meta">
+    
+<div class="post-category-list flex-column">
+    <a class="post-category-link" href="/blog/">首页</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/">研发之路</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/服务器/">服务器</a>
+</div>
+
+
+    
+<div class="post-tag-list flex-column">
+    <a class="post-tag-link" href="/blog/tag/mysql/">mysql</a>
+</div>
+
+</div>
+
+<aside class="post-widget">
+    <nav class="post-toc">
+        <h4 class="post-toc-header">目录</h4>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#单实例">单实例</a></li><li class="post-toc-level-0"><em>2</em><a href="#多实例">多实例</a></li><li class="post-toc-level-0"><em>3</em><a href="#跳过验证启动mysql">跳过验证启动mysql</a></li><li class="post-toc-level-1"><em>3.1</em><a href="#登陆后修改密码">登陆后修改密码</a></li></ol><ol><li class="post-toc-level-1"><em>3.2</em><a href="#重起mysql登陆测试-多实例修改密码后测试">重起mysql登陆测试(多实例修改密码后测试)</a></li></ol></ol></div>
+    </nav>
+</aside>
+
+<article id="post-mysql-get-password-back"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <p>如果不小心把MySQL root的密码弄丢，或是在修改初始密码时忘记了新的密码，无需重装MySQL，下面就是具体的解决方案。</p>
+<pre><code class="bash">###############################
+# Mysql 数据库丢失root密码恢复 #
+###############################
+
+############################################################
+# Purpose: recover mysql root password
+#
+# USER          YYYY-MM-DD -- ACTION
+# Oldboy        2009-10-24 -- Created
+# QQ:49000448   老男孩       mail:49000448@qq.com
+############################################################</code></pre>
+<h3 id="单实例"><a href="#单实例" class="headerlink" title="单实例"></a>单实例</h3><pre><code class="bash">killall mysqld
+mysqld_safe --skip-grant-tables &amp;
+mysql -u root -p</code></pre>
+<h3 id="多实例"><a href="#多实例" class="headerlink" title="多实例"></a>多实例</h3><pre><code class="bash">killall mysqld
+mysqld_safe --defaults-file=/data/3306/my.cnf  --skip-grant-table &amp;
+mysql -u root -p -S /data/3306/mysql.sock</code></pre>
+<h2 id="跳过验证启动mysql"><a href="#跳过验证启动mysql" class="headerlink" title="跳过验证启动mysql"></a>跳过验证启动mysql</h2><h3 id="登陆后修改密码"><a href="#登陆后修改密码" class="headerlink" title="登陆后修改密码"></a>登陆后修改密码</h3><pre><code class="bash">mysql&gt; UPDATE mysql.user SET password=PASSWORD(&quot;新密码&quot;) WHERE user=&#39;root&#39;;
+Query OK, 2 rows affected (0.00 sec)
+Rows matched: 2  Changed: 2  Warnings: 0
+mysql&gt; FLUSH PRIVILEGES;
+Query OK, 0 rows affected (0.00 sec)
+mysql&gt; quit
+Bye</code></pre>
+<h3 id="重起mysql登陆测试-多实例修改密码后测试"><a href="#重起mysql登陆测试-多实例修改密码后测试" class="headerlink" title="重起mysql登陆测试(多实例修改密码后测试)"></a>重起mysql登陆测试(多实例修改密码后测试)</h3><pre><code class="bash">/data/3306/mysql restart
+[root@ryan01 3306]# mysql -u root -p新密码 -S /data/3306/mysql.sock
+Enter password:
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 1
+Type &#39;help;&#39; or &#39;\h&#39; for help. Type &#39;\c&#39; to clear the buffer.
+mysql&gt;;</code></pre>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.153Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/mysql-get-password-back/&title=《Mysql数据库丢失root密码恢复》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/mysql-get-password-back/&title=《Mysql数据库丢失root密码恢复》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/mysql-get-password-back/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《Mysql数据库丢失root密码恢复》 — codante&url=http://codante.org/post/mysql-get-password-back/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/mysql-get-password-back/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+<div class="post-category-list flex-column">
+    <a class="post-category-link" href="/blog/">首页</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/">研发之路</a>&gt;<a class="post-category-link" href="/blog/categorie/研发之路/服务器/">服务器</a>
+</div>
+
+
+        
+<div class="post-tag-list flex-column">
+    <a class="post-tag-link" href="/blog/tag/mysql/">mysql</a>
+</div>
+
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/php-header-example/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">PHP中header的使用范例</h4>
+        </a>
+    </div>
+    
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>

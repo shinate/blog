@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    
+    <meta name="theme-color" content="#3F51B5">
+    
+    
+    <meta name="keywords" content>
+    
+    <title>PHP for Nginx | codante</title>
+    <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
+</head>
+<body></body></html>
+<div class="main" ref="main">
+    <div class="wrap" ref="wrap">
+        <section class="container" ref="container">
+            <h1 class="post-title">PHP for Nginx</h1>
+<div class="post-meta">
+    
+
+    
+</div>
+
+<article id="post-php-for-nginx"
+         class="post-article article-type-post">
+    <div class="post-content" id="post-content">
+        <p>我用的是5.2.9，所以就以它为例，为了运行为FastCGI模式，需要打上fpm补丁包。<br>PHP各个版本fpm补丁包下载 [<a href="http://php-fpm.org/downloads/][0]" target="_blank" rel="noopener">http://php-fpm.org/downloads/][0]</a></p>
+<pre><code class="bash">wget http://cn.php.net/get/php-5.2.9.tar.gz/from/this/mirror
+wget http://php-fpm.org/downloads/php-5.2.9-fpm-0.5.10-unofficial.diff.gz
+tar zxf php-5.2.9.tar.gz
+gzip -cd php-5.2.9-fpm-0.5.10-unofficial.diff.gz | patch -d php-5.2.9 -p1
+cd php-5.2.9
+./configure \
+--prefix=/servers/app/php \
+--with-config-file-path=/servers/app/php/etc \
+--with-mysql=/usr/local/mysql \
+--with-mysqli=/usr/local/mysql/bin/mysql_config \
+--with-iconv \
+--with-freetype-dir \
+--with-jpeg-dir \
+--with-png-dir \
+--with-zlib \
+--with-libxml-dir=/usr \
+--enable-xml \
+--disable-rpath \
+--enable-discard-path \
+--enable-safe-mode \
+--enable-bcmath \
+--enable-shmop \
+--enable-sysvsem \
+--enable-inline-optimization \
+--with-curl \
+--with-curlwrappers \
+--enable-mbregex \
+--enable-fastcgi \
+--enable-fpm \
+--enable-force-cgi-redirect \
+--enable-mbstring \
+--with-mcrypt \
+--with-gd \
+--enable-gd-native-ttf \
+--with-openssl \
+--with-mhash \
+--enable-pcntl \
+--enable-sockets \
+--with-ldap \
+--with-ldap-sasl
+make ZEND_EXTRA_LIBS=&#39;-liconv&#39;
+make install</code></pre>
+<p>*缺失的库可以尝试用yum进行安装</p>
+<pre><code class="bash">yum install libjpeg-devel
+yum install libpng-devel
+yum install libXpm-devel
+yum install libmcrypt-devel</code></pre>
+<p>等… 看报错信息就好了<br>然后，复制配置文件到php安装目录中的etc下。</p>
+<pre><code class="bash">cp php.ini-dist /servers/app/php/etc/php.ini</code></pre>
+<p>编辑fpm的文件</p>
+<pre><code class="bash">vi /servers/app/php/etc/php-fpm.conf</code></pre>
+<p>需要修改的不是很多，重新设置一下pid，log，端口，进程数什么的，根据自己机器来定。<br>放个简洁版的，注释太长，去了。</p>
+<pre><code class="xml">&lt;?xml version=&quot;1.0&quot; ?&gt;
+&lt;configuration&gt;
+    &lt;section name=&quot;global_options&quot;&gt;
+        &lt;value name=&quot;pid_file&quot;&gt;/servers/run/php-fpm-9000.pid&lt;/value&gt;
+        &lt;value name=&quot;error_log&quot;&gt;/servers/logs/php-fpm-9000.log&lt;/value&gt;
+        &lt;value name=&quot;log_level&quot;&gt;notice&lt;/value&gt;
+        &lt;value name=&quot;emergency_restart_threshold&quot;&gt;10&lt;/value&gt;
+        &lt;value name=&quot;emergency_restart_interval&quot;&gt;1m&lt;/value&gt;
+        &lt;value name=&quot;process_control_timeout&quot;&gt;5s&lt;/value&gt;
+        &lt;value name=&quot;daemonize&quot;&gt;yes&lt;/value&gt;
+    &lt;/section&gt;
+    &lt;workers&gt;
+        &lt;section name=&quot;pool&quot;&gt;
+            &lt;value name=&quot;name&quot;&gt;default&lt;/value&gt;
+            &lt;value name=&quot;listen_address&quot;&gt;127.0.0.1:9000&lt;/value&gt;
+            &lt;value name=&quot;listen_options&quot;&gt;
+                &lt;value name=&quot;backlog&quot;&gt;-1&lt;/value&gt;
+                &lt;value name=&quot;owner&quot;&gt;&lt;/value&gt;
+                &lt;value name=&quot;group&quot;&gt;&lt;/value&gt;
+                &lt;value name=&quot;mode&quot;&gt;0666&lt;/value&gt;
+            &lt;/value&gt;
+            &lt;value name=&quot;php_defines&quot;&gt;
+                &lt;value name=&quot;sendmail_path&quot;&gt;/usr/sbin/sendmail -t -i&lt;/value&gt;
+                &lt;value name=&quot;display_errors&quot;&gt;0&lt;/value&gt;
+            &lt;/value&gt;
+            &lt;value name=&quot;user&quot;&gt;nginx&lt;/value&gt;
+            &lt;value name=&quot;group&quot;&gt;nginx&lt;/value&gt;
+            &lt;value name=&quot;pm&quot;&gt;
+                &lt;value name=&quot;style&quot;&gt;static&lt;/value&gt;
+                &lt;value name=&quot;max_children&quot;&gt;128&lt;/value&gt;
+                &lt;value name=&quot;apache_like&quot;&gt;
+                    &lt;value name=&quot;StartServers&quot;&gt;20&lt;/value&gt;
+                    &lt;value name=&quot;MinSpareServers&quot;&gt;5&lt;/value&gt;
+                    &lt;value name=&quot;MaxSpareServers&quot;&gt;35&lt;/value&gt;
+                &lt;/value&gt;
+            &lt;/value&gt;
+            &lt;value name=&quot;request_terminate_timeout&quot;&gt;0s&lt;/value&gt;
+            &lt;value name=&quot;request_slowlog_timeout&quot;&gt;0s&lt;/value&gt;
+            &lt;value name=&quot;slowlog&quot;&gt;logs/slow.log&lt;/value&gt;
+            &lt;value name=&quot;rlimit_files&quot;&gt;65535&lt;/value&gt;
+            &lt;value name=&quot;rlimit_core&quot;&gt;0&lt;/value&gt;
+            &lt;value name=&quot;chroot&quot;&gt;&lt;/value&gt;
+            &lt;value name=&quot;chdir&quot;&gt;&lt;/value&gt;
+            &lt;value name=&quot;catch_workers_output&quot;&gt;yes&lt;/value&gt;
+            &lt;value name=&quot;max_requests&quot;&gt;1024&lt;/value&gt;
+            &lt;value name=&quot;allowed_clients&quot;&gt;127.0.0.1&lt;/value&gt;
+            &lt;value name=&quot;environment&quot;&gt;
+                &lt;value name=&quot;HOSTNAME&quot;&gt;$HOSTNAME&lt;/value&gt;
+                &lt;value name=&quot;PATH&quot;&gt;/usr/local/bin:/usr/bin:/bin&lt;/value&gt;
+                &lt;value name=&quot;TMP&quot;&gt;/tmp&lt;/value&gt;
+                &lt;value name=&quot;TMPDIR&quot;&gt;/tmp&lt;/value&gt;
+                &lt;value name=&quot;TEMP&quot;&gt;/tmp&lt;/value&gt;
+                &lt;value name=&quot;OSTYPE&quot;&gt;$OSTYPE&lt;/value&gt;
+                &lt;value name=&quot;MACHTYPE&quot;&gt;$MACHTYPE&lt;/value&gt;
+                &lt;value name=&quot;MALLOC_CHECK_&quot;&gt;2&lt;/value&gt;
+            &lt;/value&gt;
+        &lt;/section&gt;
+    &lt;/workers&gt;
+&lt;/configuration&gt;</code></pre>
+<p>启动fastcgi</p>
+<pre><code class="bash">/servers/app/php/sbin/php-fpm start</code></pre>
+<p>持续。。。<br>[0]: <a href="http://php-fpm.org/downloads/" target="_blank" rel="noopener">http://php-fpm.org/downloads/</a></p>
+
+    </div>
+    <blockquote class="post-copyright">
+    
+<span class="post-time">
+    最后更新于
+    <time datetime="2020-04-08T06:51:24.158Z">2020.04.08 14:51:24</time></span>
+ by <a href="http://codante.org">Shinate</a>
+    
+</blockquote>
+
+    
+<div class="page-share-wrap">
+    
+
+<div class="page-share" id="pageShare">
+    <ul class="reset share-icons">
+      <li>
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/php-for-nginx/&title=《PHP for Nginx》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+          <i class="icon icon-weibo"></i>
+        </a>
+      </li>
+      <li>
+        <a class="weixin share-sns wxFab" href="javascript:;" data-title="微信">
+          <i class="icon icon-weixin"></i>
+        </a>
+      </li>
+      <li>
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/php-for-nginx/&title=《PHP for Nginx》 — codante&source=" data-title=" QQ">
+          <i class="icon icon-qq"></i>
+        </a>
+      </li>
+      <li>
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/php-for-nginx/" data-title=" Facebook">
+          <i class="icon icon-facebook"></i>
+        </a>
+      </li>
+      <li>
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《PHP for Nginx》 — codante&url=http://codante.org/post/php-for-nginx/&via=http://codante.org" data-title=" Twitter">
+          <i class="icon icon-twitter"></i>
+        </a>
+      </li>
+      <li>
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/php-for-nginx/" data-title=" Google+">
+          <i class="icon icon-google-plus"></i>
+        </a>
+      </li>
+    </ul>
+ </div>
+
+
+
+    <a href="javascript:;" id="shareFab" class="page-share-fab waves-effect waves-circle">
+        <i class="icon icon-share-alt icon-lg"></i>
+    </a>
+</div>
+
+
+    <div class="post-meta">
+        
+
+        
+    </div>
+    
+<nav class="post-nav">
+    
+    <div class="prev">
+        <a href="/blog/post/ie-to-determine-the-shortest-way-around-the-world/" id="post-prev" class="post-nav-link">
+            <b class="tips">前一篇</b>
+            <h4 class="title">全世界最短的IE判断方法</h4>
+        </a>
+    </div>
+    
+    
+    <div class="next">
+        <a href="/blog/post/outerhtml-in-firefox/" id="post-next" class="post-nav-link">
+            <b class="tips">后一篇</b>
+            <h4 class="title">FireFox中的outerHTML</h4>
+        </a>
+    </div>
+    
+</nav>
+
+
+    
+<span id="busuanzi_container_page_pv" title="文章总阅读量" style='display:none'>
+    <i class="icon icon-eye icon-pr"></i><span id="busuanzi_value_page_pv"></span>
+</span>
+
+
+</article>
+        </section>
+    </div>
+    <div id="cli"><div class="prompt">cosh-1.0.0&#36;&nbsp;</div><div><input type="text" class="inputing"></div></div>
+</div>
+<script>
+    $CONFIG = {"language":"zh-cn","category_dir":"categorie","tag_dir":"tag","root":"/blog/","env":"production"};
+</script>
+<script source="/blog/js/zepto.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/lang.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/common.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/table.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script source="/blog/js/highlight.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+<script id="static" src="/blog/js/static.min.js?_v=77623b489ee77b522ff8437b98d73b89"></script>
+
+<!-- Baidu Tongji -->
+<script>var _hmt = _hmt || []</script>
+<script async src="//hm.baidu.com/hm.js?b73a1c414265340e2dd6a77fa1ac1b75"></script>
+<!-- End Baidu Tongji -->
+
+
+<!-- Baidu Push -->
+<script>(function(){var bp=document.createElement("script");bp.src=window.location.protocol.split(":")[0]==="https"?"https://zz.bdstatic.com/linksubmit/push.js":"http://push.zhanzhang.baidu.com/push.js";var s=document.getElementsByTagName("script")[0];s.parentNode.insertBefore(bp,s)})();</script>
+<!-- End Baidu Push -->
+
+
+
+<!-- Google Analytics -->
+<script>
+window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+ga('create', 'UA-15062704-1', 'auto');
+ga('send', 'pageview');
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+<!-- End Google Analytics -->
+
+
+</body>
+</html>
