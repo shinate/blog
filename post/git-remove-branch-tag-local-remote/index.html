@@ -10,14 +10,14 @@
     
     <meta name="keywords" content>
     
-    <title>nodejs安装及配置 | codante</title>
+    <title>批量删除git 本地分支、远程分支、tag | codante</title>
     <link type="text/css" rel="stylesheet" source="/blog/css/style.min.css?_v=77623b489ee77b522ff8437b98d73b89" media="all">
 </head>
 <body></body></html>
 <div class="main" ref="main">
     <div class="wrap" ref="wrap">
         <section class="container" ref="container">
-            <h1 class="post-title">nodejs安装及配置</h1>
+            <h1 class="post-title">批量删除git 本地分支、远程分支、tag</h1>
 <div class="post-meta">
     
 
@@ -27,26 +27,34 @@
 <aside class="post-widget">
     <nav class="post-toc">
         <h4 class="post-toc-header">目录</h4>
-        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#下载及安装">下载及安装</a></li><li class="post-toc-level-0"><em>2</em><a href="#启动">启动</a></li></ol></ol></div>
+        <div class="post-toc-content"><ol><li class="post-toc-level-0"><em>1</em><a href="#批量删除本地分支">批量删除本地分支</a></li><li class="post-toc-level-0"><em>2</em><a href="#批量删除远程分支">批量删除远程分支</a></li><li class="post-toc-level-0"><em>3</em><a href="#批量删除本地tag">批量删除本地tag</a></li><li class="post-toc-level-0"><em>4</em><a href="#批量删除远程tag">批量删除远程tag</a></li></ol><ol><li class="post-toc-level-0"><em>5</em><a href="#用到命令说明">用到命令说明</a></li></ol></ol></div>
     </nav>
 </aside>
 
-<article id="post-nodejs-installation-and-configuration"
-         class="post-article article-type-post">
+<article id="port-git-remove-branch-tag-local-remote"
+         class="post-article article-type-port">
     <div class="post-content" id="post-content">
-        <h2 id="下载及安装"><a href="#下载及安装" class="headerlink" title="下载及安装"></a>下载及安装</h2><pre><code class="bash">git clone git://github.com/joyent/node.git
-cd node
-./configure --prefix=/servers/app/node
-make &amp;&amp; make install</code></pre>
-<h2 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h2><pre><code class="bash">/servers/app/node/bin/node</code></pre>
-<p>直接执行./node将进入nodejs的命令行</p>
+        <h3 id="批量删除本地分支"><a href="#批量删除本地分支" class="headerlink" title="批量删除本地分支"></a>批量删除本地分支</h3><p><code>git branch -a | grep -v -E &#39;master|develop&#39; | xargs git branch -D</code></p>
+<h3 id="批量删除远程分支"><a href="#批量删除远程分支" class="headerlink" title="批量删除远程分支"></a>批量删除远程分支</h3><p><code>git branch -r| grep -v -E &#39;master|develop&#39; | sed &#39;s/origin\///g&#39; | xargs -I {} git push origin :{}</code></p>
+<p>如果有些分支无法删除，是因为远程分支的缓存问题，可以使用git remote prune</p>
+<h3 id="批量删除本地tag"><a href="#批量删除本地tag" class="headerlink" title="批量删除本地tag"></a>批量删除本地tag</h3><p><code>git tag | xargs -I {} git tag -d {}</code></p>
+<h3 id="批量删除远程tag"><a href="#批量删除远程tag" class="headerlink" title="批量删除远程tag"></a>批量删除远程tag</h3><p><code>git tag | xargs -I {} git push origin :refs/tags/{}</code></p>
+<h3 id="用到命令说明"><a href="#用到命令说明" class="headerlink" title="用到命令说明"></a>用到命令说明</h3><p><strong>grep -v -E 排除master 和 develop</strong></p>
+<ul>
+<li>-v 排除</li>
+<li>-E 使用正则表达式</li>
+</ul>
+<p><strong>xargs 将前面的值作为参数传入 git branch -D 后面</strong></p>
+<ul>
+<li>-I {} 使用占位符 来构造 后面的命令</li>
+</ul>
 
     </div>
     <blockquote class="post-copyright">
     
 <span class="post-time">
     最后更新于
-    <time datetime="2020-04-27T06:18:05.715Z">2020.04.27 14:18:05</time></span>
+    <time datetime="2020-05-28T11:29:05.054Z">2020.05.28 19:29:05</time></span>
  by <a href="http://codante.org">Shinate</a>
     
 </blockquote>
@@ -58,7 +66,7 @@ make &amp;&amp; make install</code></pre>
 <div class="page-share" id="pageShare">
     <ul class="reset share-icons">
       <li>
-        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/nodejs-installation-and-configuration/&title=《nodejs安装及配置》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
+        <a class="weibo share-sns" target="_blank" href="http://service.weibo.com/share/share.php?url=http://codante.org/post/git-remove-branch-tag-local-remote/&title=《批量删除git 本地分支、远程分支、tag》 — codante&pic=https://avatars3.githubusercontent.com/u/6635959?s=400&u=517b88ac755c9386c2a02b78a04a9e45cc89c46e&v=4" data-title="微博">
           <i class="icon icon-weibo"></i>
         </a>
       </li>
@@ -68,22 +76,22 @@ make &amp;&amp; make install</code></pre>
         </a>
       </li>
       <li>
-        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/nodejs-installation-and-configuration/&title=《nodejs安装及配置》 — codante&source=" data-title=" QQ">
+        <a class="qq share-sns" target="_blank" href="http://connect.qq.com/widget/shareqq/index.html?url=http://codante.org/post/git-remove-branch-tag-local-remote/&title=《批量删除git 本地分支、远程分支、tag》 — codante&source=" data-title=" QQ">
           <i class="icon icon-qq"></i>
         </a>
       </li>
       <li>
-        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/nodejs-installation-and-configuration/" data-title=" Facebook">
+        <a class="facebook share-sns" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=http://codante.org/post/git-remove-branch-tag-local-remote/" data-title=" Facebook">
           <i class="icon icon-facebook"></i>
         </a>
       </li>
       <li>
-        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《nodejs安装及配置》 — codante&url=http://codante.org/post/nodejs-installation-and-configuration/&via=http://codante.org" data-title=" Twitter">
+        <a class="twitter share-sns" target="_blank" href="https://twitter.com/intent/tweet?text=《批量删除git 本地分支、远程分支、tag》 — codante&url=http://codante.org/post/git-remove-branch-tag-local-remote/&via=http://codante.org" data-title=" Twitter">
           <i class="icon icon-twitter"></i>
         </a>
       </li>
       <li>
-        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/nodejs-installation-and-configuration/" data-title=" Google+">
+        <a class="google share-sns" target="_blank" href="https://plus.google.com/share?url=http://codante.org/post/git-remove-branch-tag-local-remote/" data-title=" Google+">
           <i class="icon icon-google-plus"></i>
         </a>
       </li>
@@ -106,18 +114,11 @@ make &amp;&amp; make install</code></pre>
     
 <nav class="post-nav">
     
-    <div class="prev">
-        <a href="/blog/post/linux-statistics-files-directory-number/" id="post-prev" class="post-nav-link">
-            <b class="tips">前一篇</b>
-            <h4 class="title">Linux统计文件、目录数量</h4>
-        </a>
-    </div>
-    
     
     <div class="next">
-        <a href="/blog/post/xdebug-installation-and-configuration/" id="post-next" class="post-nav-link">
+        <a href="/blog/post/zend-guard-installation/" id="post-next" class="post-nav-link">
             <b class="tips">后一篇</b>
-            <h4 class="title">xdebug安装及配置</h4>
+            <h4 class="title">Zend Grard 安装及配置</h4>
         </a>
     </div>
     

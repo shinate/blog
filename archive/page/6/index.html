@@ -20,6 +20,29 @@
             <h1 class="page-title">codante</h1>
 <div class="article-list">
     
+    <article id="article-outerhtml-in-firefox" class="article-item article-type-post post">
+    
+<h3 class="article-title">
+    
+    
+    <a class="article-title-link" href="/blog/post/outerhtml-in-firefox/">FireFox中的outerHTML</a>
+    
+    
+</h3>
+    <time class="article-date-time" title="2011.02.28 22:38:36"
+      datetime="2011-02-28T14:38:36.000Z">2011.02.28 22:38:36</time>
+
+    
+    
+    <div class="article-content">
+        
+        
+        此方法是直接将outerHTML添加为HTMLElement的动态方法，可供直接调用。if(document.body.__defineGetter__){if(HTMLElement){varelement=HTMLElement.prototype;if(element.__defineGetter__){...
+        
+    </div>
+</article>
+
+    
     <article id="article-javascript-in-the-ie-and-firefox-compatibility-finishing" class="article-item article-type-post post">
     
 <h3 class="article-title">
@@ -242,29 +265,6 @@
         
         
         全面剖析用道具箱第一栏进行测试，第一栏的地址为0x01349364。一个护石用12个8位元进行控制，它们分别代表：[01][02][0304][0506]07,0809,1011,12[有无装备][装备类型][修正值,装备属性][修正值][属性1][属性2][强化玉][1][强化玉][2][强化玉][3]01有无装备这个很好理解就不说了…02装备类型MH2里有很多种类的装备，每种装...
-        
-    </div>
-</article>
-
-    
-    <article id="article-remote_addr-http_client_ip-http_x_forwarded_for" class="article-item article-type-post post">
-    
-<h3 class="article-title">
-    
-    
-    <a class="article-title-link" href="/blog/post/remote_addr-http_client_ip-http_x_forwarded_for/">REMOTE_ADDR，HTTP_CLIENT_IP，HTTP_X_FORWARDED_FOR</a>
-    
-    
-</h3>
-    <time class="article-date-time" title="2010.12.27 12:49:17"
-      datetime="2010-12-27T04:49:17.000Z">2010.12.27 12:49:17</time>
-
-    
-    
-    <div class="article-content">
-        
-        
-        functionreal_ip(){static$realip=NULL;if($realip!==NULL){return$realip;}if(isset($_SERVER)){if(isset($_SERVER[&#39;HTTP_X_FORWARDED_FOR&#39;])){$arr=explode(&#...
         
     </div>
 </article>
